@@ -20,4 +20,7 @@ const productSchema = new Schema({
 const Review = mongoose.model('review', reviewSchema);
 const Product = mongoose.model('product', productSchema);
 
-module.exports = mongoose.model("Product", productSchema);
+
+
+module.exports = mongoose.model('review', reviewSchema);
+module.exports = mongoose.model("product", productSchema);
