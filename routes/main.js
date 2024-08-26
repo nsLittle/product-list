@@ -4,7 +4,7 @@ const { faker } = require('@faker-js/faker');
 const Product = require("../models/product");
 
 router.get("/generate-fake-data", async (req, res, next) => {
-  console.log("third bump");
+  console.log("fake data...");
 
   try {
     const savePromises = [];
@@ -28,6 +28,18 @@ router.get("/generate-fake-data", async (req, res, next) => {
   }
 });
 
+// sort by category
+// sory by price
+// some other sorging
+
+router.get("/", (req, res, next) => {
+    try {
+      res.send("Home page...");
+    } catch (error) {
+      next(error);
+    }
+});
+
 router.get("/products", async (req, res, next) => {
   try {
     const perPage = 9;
@@ -47,5 +59,18 @@ router.get("/products", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/products/:product", async (req, res, next) => {});
+
+// limit to 4 reviews at a time
+router.get("/products/:product/reviews", async (req, res, next) => {});
+
+router.post("/products", async (req, res, next) => {});
+
+router.post("/products/:product/reviews", async (req, res, next) => {});
+
+router.delete("products/:product", async (req, res, next) => {});
+
+router.delete("/reviews/:review", async (req, res, next) => {});
 
 module.exports = router;
