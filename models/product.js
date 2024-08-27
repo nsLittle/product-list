@@ -6,7 +6,7 @@ const reviewSchema = new Schema({
   text: String,
   product: {
     type: Schema.Types.ObjectId,
-    ref: 'product',
+    ref: 'Product',
   }
 });
 
@@ -17,10 +17,18 @@ const productSchema = new Schema({
   image: String,
 });
 
-const Review = mongoose.model('review', reviewSchema);
-const Product = mongoose.model('product', productSchema);
+// Define virtual field for populating reviews
+productSchema.virtual('reviews', {
+  ref: 'Review', // Reference to the Review model
+  localField: '_id', // Field in the Product schema
+  foreignField: 'product', // Field in the Review schema
+});
 
+// Ensure virtuals are included when converting to JSON
+productSchema.set('toJSON', { virtuals: true });
+productSchema.set('toObject', { virtuals: true });
 
+const Review = mongoose.model('Review', reviewSchema);
+const Product = mongoose.model('Product', productSchema);
 
-module.exports = mongoose.model('review', reviewSchema);
-module.exports = mongoose.model("product", productSchema);
+module.exports = { Product, Review };
