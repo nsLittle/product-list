@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const { faker } = require('@faker-js/faker');
 const { Product, Review } = require("../models/product");
+const { clear } = require('console');
 
 router.get("/generate-fake-data", async (req, res, next) => {
   console.log("App is giving us fake data...");
@@ -23,12 +24,16 @@ router.get("/generate-fake-data", async (req, res, next) => {
     const savePromises= [];
     
     for (let i = 0; i < 90; i++) {
-      let product = new Product({
-        category: faker.commerce.department(),
-        name: faker.commerce.productName(),
-        price: parseFloat(faker.commerce.price()),
-        image: faker.image.urlPicsumPhotos(),
-      });
+      let product;
+      do {
+        product = new Product({
+          category: faker.commerce.department(),
+          name: faker.commerce.productName(),
+          price: parseFloat(faker.commerce.price()),
+          image: faker.image.urlPicsumPhotos(),
+        });
+      } while (!product.category || !product.name || !product.price || !product.image);
+
       const savedProduct = await product.save();
 
       for (let i = 0; i < 4; i++) {
@@ -57,42 +62,94 @@ router.get("/", (req, res, next) => {
     }
 });
 
-// some other sorting
 router.get("/products", async (req, res, next) => {
   try {
     const perPage = 5;
     const page = parseInt(req.query.page, 10) || 1;
 
-    const products = await Product.find({})
-      .skip(perPage * page - perPage)
+    // QUERY FROM URL
+    const category = req.query.category;
+    const price = req.query.price;
+    const product = req.query.productName;
+
+    let query = {};
+    let sortOptions = {};
+
+    if (category) {
+      query.category = { $regex: new RegExp(category, 'i') };
+    }
+
+    if (price === 'highest') {
+      sortOptions.price = -1;
+    } else if (price === 'lowest') {
+      sortOptions.price = 1;
+    }
+
+    if (product) {
+      query.name = { $regex: new RegExp(product, 'i') };
+    }
+
+    // SAMPLE URL QUERIES
+    // http://http://localhost:3000/products?price=lowest
+    // http://http://localhost:3000/products?price=highest
+    // http://localhost:3000/products?page=1&category=Tools&price=lowest
+    // http://localhost:3000/products?page=1&category=tools&price=highest
+    // http://localhost:8000/products?product=Refined Plastic Fish
+
+    // RESPONSE FOR ALL PRODUCTS
+    const products = await Product.find(query)
+      .sort(sortOptions)
+      .skip(perPage * (page - 1))
+      .limit(perPage)
+
+    const filteredProducts = products.filter(product => product.name && product.category && product.price && product.image);
+
+    // RESPONSE FOR OTHER SORTS 
+    const sortedCategoryAlpha = await Product.find({})
+      .sort({ category: 1, name: 1 })
+      .skip(perPage * (page - 1))
       .limit(perPage)
     
-    // const category = await Product.find({ category: "Automotive" })
-    //  .sory({ name:1 })
-    //  .skip(perPage * page - perPage)
-    //  .limit(perPage)
-
-    const sortedAlpha = await Product.find({})
-      .sort({ category: 1, name: 1 })
-      .skip(perPage * page - perPage)
+    const filteredSortedCategoryAlpha = sortedCategoryAlpha.filter(product => product.name && product.category && product.price && product.image);
+    
+    const sortedProductAlpha = await Product.find({})
+      .sort({ name: 1 })
+      .skip(perPage * (page - 1))
       .limit(perPage)
         
+    const filteredSortedProductAlpha = sortedProductAlpha.filter(product => product.name && product.category && product.price && product.image);
+
     const sortedPriceLow = await Product.find({})
       .sort({ price: 1 })
-      .skip(perPage * page - perPage)
+      .skip(perPage * (page - 1))
       .limit(perPage)
+
+    const filteredSortedPriceLow = sortedPriceLow.filter(product => product.name && product.category && product.price && product.image);
 
     const sortedPriceHigh = await Product.find({})
       .sort({ price: -1 })
-      .skip(perPage * page - perPage)
+      .skip(perPage * (page - 1))
       .limit(perPage)
-    
-    const count = await Product.countDocuments();
+
+    const filteredSortedPriceHigh = sortedPriceHigh.filter(product => product.name && product.category && product.price && product.image);
+
+    const count = await Product.countDocuments(query);
+
+    if (category || price || product) {
+      return res.json({
+        Queried_Products: filteredProducts,
+        Total_Porducts: count,
+        Total_Pages: Math.ceil(count / perPage),
+        Current_Page: page,
+      });
+    }
 
     res.json({
-      All_Products: products,
-      Products_By_Category: sortedAlpha,
-      Sorted_By_Price: sortedPriceLow,
+      All_Products: filteredProducts,
+      // Products_By_Category_Alpha: filteredSortedCategoryAlpha,
+      // Products_By_Product_Alpha: filteredSortedProductAlpha,
+      // Sorted_By_Price_Low: filteredSortedPriceLow,
+      // Sorted_By_Price_High: filteredSortedPriceHigh,
       Total_Products: count,
       Total_Pages: Math.ceil(count / perPage),
       Current_Page: page
@@ -106,21 +163,17 @@ router.get("/products/:product", async (req, res, next) => {
   console.log('Product Detail...');
 
   try {
-    const producNamet = req.params.product;
+    const productName = req.params.product;
     console.log(productName);
 
-    const productWithReviews = await Product.find({ name: producName })
-      .populate('reviews');
+    const productDetails = await Product.find({ name: productName })
 
-      res.json({ 'Product Details': products });
-
-
+    res.json({ 'Product Details': productDetails });
     } catch (error) {
       next(error);
     }
   });
 
-// limit to 4 reviews at a time
 router.get("/products/:product/reviews", async (req, res, next) => {
   console.log('Product Reviews...');
 
@@ -144,7 +197,21 @@ router.get("/products/:product/reviews", async (req, res, next) => {
   }
 });
 
-router.post("/products", async (req, res, next) => {});
+router.post("/products", async (req, res, next) => {
+  console.log('Creating a New Product...');
+
+  try {
+    const productDetails = req.body;
+    console.log(productDetails);
+
+    const newProduct = new Product(productDetails);
+    await newProduct.save();
+
+    res.status(200).json(newProduct);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/products/:product/reviews", async (req, res, next) => {});
 

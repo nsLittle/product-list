@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
-  userName: String,
-  text: String,
+  reviewer: String,
+  reviewText: String,
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Product',
@@ -17,14 +17,14 @@ const productSchema = new Schema({
   image: String,
 });
 
-// Define virtual field for populating reviews
+// VIRTUAL FIELDN TO POPULATE REVIEWS
 productSchema.virtual('reviews', {
-  ref: 'Review', // Reference to the Review model
-  localField: '_id', // Field in the Product schema
-  foreignField: 'product', // Field in the Review schema
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'product',
 });
 
-// Ensure virtuals are included when converting to JSON
+// INCLUDE VIRTUALS FOR JSON CONVERSIONS
 productSchema.set('toJSON', { virtuals: true });
 productSchema.set('toObject', { virtuals: true });
 
