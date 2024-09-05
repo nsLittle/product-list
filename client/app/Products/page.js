@@ -40,19 +40,23 @@ export default function ProductsList() {
 
   return (
     <main>
-        <header>
+        <div className='sub-title'>
           <h2>List of Cool Stuff</h2>
-        </header>
+        </div>
+
         <div>
-          <ul>
+          <ul className="product-list">
             {products.All_Products.map(product => (
-              <li key={product._id}>
-                <img src={product.image} alt={product.name} width={100} height={100} />
-                <div>{product.name} - {product.price}</div>
+              <li key={product._id} className="product-card">
+                <div className='product-details'>
+                  <div className="product-category">Category: <span style={{ fontWeight: 'bold'}}>{product.category}</span></div>
+                  <div className="product-price">{product.price}</div>
+                </div>
+                <img src={product.image} alt={product.name} className="image-card" />
+                <div className="product-name">{product.name}</div>
               </li>
             ))}
           </ul>
-
           <div>
             <p>Total Products: {products.Total_Products}</p>
           </div>
