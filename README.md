@@ -7,10 +7,16 @@ If you have any questions about this project or the program in general, visit [p
 ### Project Description
 
 This first fullstack project is something something.
+The frontend is created using React Nextjs something something.
 
 ### Table of Contents
 
 - product-list
+  - client
+    - app
+      - globals.css
+      - layout.js
+      - page.js
   - models
     - product.js
   - routes
@@ -29,3 +35,9 @@ This first fullstack project is something something.
 ### Things to Add/Edit
 
 1. All of it
+2. Build React app for production:
+
+- cd client
+- npm run build
+
+3.
