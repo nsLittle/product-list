@@ -15,9 +15,6 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <div>
-          <h1>Coolest Stuff</h1>
-        </div>
         {children}
         <Link className="routes" href="/products">
           <p className="return-link">Return to Product List</p>

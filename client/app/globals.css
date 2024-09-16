@@ -2,29 +2,6 @@ body {
   background-color: rgb(234, 234, 234);
 }
 
-h1,
-h2,
-ul {
-  text-align: center;
-}
-
-h1 {
-  font-size: 72px;
-}
-
-h2 {
-  font-size: 48px;
-}
-
-ul {
-  font-size: 18px;
-}
-
-li {
-  list-style: none;
-  margin-top: 25px;
-}
-
 .product-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
