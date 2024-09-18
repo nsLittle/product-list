@@ -14,9 +14,9 @@ export default function DropDownCategory({ selectedCategoryOption, setSelectedCa
   return (
     <main>
       <select value={selectedCategoryOption} onChange={handleChange} className="drop-category">
-        <option disabled>Sort by Category</option>
-        <option value="alphaAsc">Alphabetical Ascending (A-Z)</option>
-        <option value="alphaDesc">Alphabetical Descending (Z-A)</option>
+        <option default>Sort by Category</option>
+        <option value="asecending-category">Alphabetical Ascending (A-Z)</option>
+        <option value="descending-product">Alphabetical Descending (Z-A)</option>
       </select>
     </main>
   )

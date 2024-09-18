@@ -3,21 +3,22 @@ import React from 'react';
 import { useState } from 'react';
 import '../globals.css';
 
-export default function DropDownPrice({ onPriceChange }) {
-  const [selectedPriceOption, setSelectedPriceOption] = useState('Sort by Price');
+export default function DropDownPrice({ onPriceChange, selectedPriceOption }) {
 
   const handlePriceChange = (e) => {
-    const choice = e.target.value;
-    console.log(choice);
-    setSelectedPriceOption(choice);
+    const sortOption = e.target.value;
+    console.log(sortOption);
+    onPriceChange(sortOption);
+    selectedPriceOption = sortOption;
+    console.log(selectedPriceOption);
   };
 
   return (
     <main>
       <select value={selectedPriceOption} onChange={handlePriceChange} className="drop-price">
-        <option disabled>Sort by Price</option>
-        <option value="lowest-to-highest">Price Low to High (0-10)</option>
-        <option value="highest-to-lowest">Price High to Low (10-0)</option>
+        <option value="default">Sort by Price</option>
+        <option value="lowest">Price Low to High (0-10)</option>
+        <option value="highest">Price High to Low (10-0)</option>
       </select>
     </main>
   )
