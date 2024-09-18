@@ -40,6 +40,7 @@ export default function Home({ sortOption }) {
         const data = await response.json();
         setItems({
           All_Products: data.All_Products || [],
+          Queried_Products: data.Queried_Products || [],
           Total_Products: data.Total_Products || 0,
           Total_Pages: data.Total_Pages || 0,
           Current_Page: data.Current_Page || 0,

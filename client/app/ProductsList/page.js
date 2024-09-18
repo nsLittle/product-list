@@ -1,18 +1,19 @@
 'use client';
 import React from 'react';
-import { useEffect, useState } from 'react';
 import '../globals.css';
 
 export default function ProductsList({items, selectedCategoryOption, selectedPriceOption }) {
 
-  const { All_Products } = items;
-  const { Sorted_By_Category } = selectedCategoryOption;
+  const { All_Products, Queried_Products } = items;
+  const productsToDisplay = (selectedCategoryOption !== 'default' || selectedPriceOption !== 'default')
+    ? (Queried_Products || [])
+    : (All_Products || []);
 
   return (
     <main>
       <div className="product-list">
-        {All_Products.length > 0 ? (
-          All_Products.map((item) => (
+        {productsToDisplay.length > 0 ? (
+          productsToDisplay.map((item) => (
             <div key={item.id} className='product-card'>
               <div className="product-details">
                 <p className="product-category">Category: {item.category}</p>
