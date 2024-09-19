@@ -12,6 +12,7 @@ export default function Home({ sortOption }) {
   const [selectedPriceOption, setSelectedPriceOption] = useState('default');
   const [items, setItems] = useState({
     All_Products: [],
+    Products_By_Category_Alpha: [],
     Total_Products: 0,
     Total_Pages: 0,
     Current_Page: 0,
@@ -39,6 +40,8 @@ export default function Home({ sortOption }) {
         const data = await response.json();
         setItems({
           All_Products: queryParams.length === 0 ? (data.All_Products || []) : (items.All_Products || []),
+
+          Products_By_Category_Alpha: queryParams.length === 0 ? (data.Products_By_Category_Alpha || []) : (items.Products_By_Category_Alpha || []),
 
           Queried_Products: queryParams.length > 0 ? (data.Queried_Products || []) : [],
           Total_Products: data.Total_Products|| 0,
