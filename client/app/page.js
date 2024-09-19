@@ -44,7 +44,11 @@ export default function Home({ sortOption }) {
 
           Products_By_Category_Alpha: queryParams.length === 0 ? (data.Products_By_Category_Alpha || []) : (items.Products_By_Category_Alpha || []),
 
+          Products_By_Category_Alpha_Reverse: queryParams.length === 0 ? (data.Products_By_Category_Alpha_Reverse || []) : (items.Products_By_Category_Alpha_Reverse || []),
+
           Products_By_Product_Alpha: queryParams.length === 0 ? (data.Products_By_Product_Alpha || []) : (items.Products_By_Product_Alpha || []),
+
+          Products_By_Product_Alpha_Reverse: queryParams.length === 0 ? (data.Products_By_Product_Alpha_Reverse || []) : (items.Products_By_Product_Alpha_Reverse || []),
 
           Queried_Products: queryParams.length > 0 ? (data.Queried_Products || []) : [],
           Total_Products: data.Total_Products|| 0,

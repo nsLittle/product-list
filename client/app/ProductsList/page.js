@@ -21,11 +21,11 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
         case 'ascending-category':
           return items.Products_By_Category_Alpha;
         case 'descending-category':
-          return [...(items.Products_By_Category_Alpha || [])].reverse();
-        case 'ascending-product':
+          return items.Products_By_Category_Alpha_Reverse || [];
+        case 'ascending-products':
           return items.Products_By_Product_Alpha || [];
-        case 'descending-product':
-          return [...(items.Products_By_Product_Alpha || [])].reverse();
+        case 'descending-products':
+          return items.Products_By_Product_Alpha_Reverse || [];
         default:
           console.log('Selected Category Option: ', selectedCategoryOption);
           console.log(items.All_Products);
@@ -36,7 +36,7 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
   }
 
   const productsToDisplay = getProductsToDisplay();
-  console.log(productsToDisplay);
+  console.log(productsToDisplay)
 
   return (
     <main>
