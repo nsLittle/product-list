@@ -3,12 +3,40 @@ import React from 'react';
 import '../globals.css';
 
 export default function ProductsList({items, selectedCategoryOption, selectedPriceOption }) {
-console.log('Items received: ', items);
-console.log('Selected Category: ', selectedCategoryOption);
-  const { All_Products, Queried_Products } = items;
-  const productsToDisplay = (selectedCategoryOption !== 'default' || selectedPriceOption !== 'default')
-    ? (Queried_Products || [])
-    : (All_Products || []);
+  console.log('Items received: ', items);
+  console.log('Selected Category: ', selectedCategoryOption);
+
+  const getProductsToDisplay = () => {
+    if (!items) {
+      console.log('Items is not found or something');
+      return [];
+    }
+
+    if (selectedPriceOption !== 'default') {
+      return items.Queried_Products || [];
+    }
+
+    if (selectedCategoryOption !== 'default') {
+      switch (selectedCategoryOption) {
+        case 'ascending-category':
+          return items.Products_By_Category_Alpha;
+        case 'descending-category':
+          return [...(items.Products_By_Category_Alpha || [])].reverse();
+        case 'ascending-product':
+          return items.Products_By_Product_Alpha || [];
+        case 'descending-product':
+          return [...(items.Products_By_Product_Alpha || [])].reverse();
+        default:
+          console.log('Selected Category Option: ', selectedCategoryOption);
+          console.log(items.All_Products);
+          return items.All_Products || [];
+      }
+    }
+    return items.All_Products || [];
+  }
+
+  const productsToDisplay = getProductsToDisplay();
+  console.log(productsToDisplay);
 
   return (
     <main>

@@ -13,6 +13,7 @@ export default function Home({ sortOption }) {
   const [items, setItems] = useState({
     All_Products: [],
     Products_By_Category_Alpha: [],
+    Queried_Products: [],
     Total_Products: 0,
     Total_Pages: 0,
     Current_Page: 0,
@@ -42,6 +43,8 @@ export default function Home({ sortOption }) {
           All_Products: queryParams.length === 0 ? (data.All_Products || []) : (items.All_Products || []),
 
           Products_By_Category_Alpha: queryParams.length === 0 ? (data.Products_By_Category_Alpha || []) : (items.Products_By_Category_Alpha || []),
+
+          Products_By_Product_Alpha: queryParams.length === 0 ? (data.Products_By_Product_Alpha || []) : (items.Products_By_Product_Alpha || []),
 
           Queried_Products: queryParams.length > 0 ? (data.Queried_Products || []) : [],
           Total_Products: data.Total_Products|| 0,
