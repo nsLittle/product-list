@@ -2,22 +2,26 @@
 import React from 'react';
 import '../globals.css';
 
-export default function DropDownCategory({ selectedCategoryOption, setSelectedCategoryOption }) {
+export default function DropDownCategory({ selectedCategoryOption, onCategoryChange }) {
 
   const handleChange = (e) => {
-    const choice = e.target.value;
-    console.log(choice);
-    setSelectedCategoryOption = choice;
+    const sortOption = e.target.value;
+    console.log(sortOption);
+    onCategoryChange(sortOption);
   };
 
   return (
     <main>
-      <select value={selectedCategoryOption} onChange={handleChange} className="drop-category">
-        <option default>Sort by Category</option>
+      <select
+        value={selectedCategoryOption}
+        onChange={handleChange}
+        className="drop-category"
+      >
+        <option value="default">Sort by Category</option>
         <option value="asecending-category">Ascending by Category (A-Z)</option>
         <option value="descending-category">Descending by Category (Z-A)</option>
         <option value="asecending-products">Ascending by Product (A-Z)</option>
-        <option value="asecending-category">Descending by Product (Z-A)</option>
+        <option value="descending-products">Descending by Product (Z-A)</option>
       </select>
     </main>
   )

@@ -19,12 +19,11 @@ export default function Home({ sortOption }) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      console.log(selectedPriceOption);
       try {
         const queryParams = [];
 
         if (selectedCategoryOption !== 'default') {
-          queryParams.push(`category=${encodeU(selectedCategoryOption)}`);
+          queryParams.push(`category=${encodeURIComponent(selectedCategoryOption)}`);
         }
 
         if (selectedPriceOption !== 'default') {
@@ -39,9 +38,10 @@ export default function Home({ sortOption }) {
         const response = await fetch(url);
         const data = await response.json();
         setItems({
-          All_Products: data.All_Products || [],
-          Queried_Products: data.Queried_Products || [],
-          Total_Products: data.Total_Products || 0,
+          All_Products: queryParams.length === 0 ? (data.All_Products || []) : (items.All_Products || []),
+
+          Queried_Products: queryParams.length > 0 ? (data.Queried_Products || []) : [],
+          Total_Products: data.Total_Products|| 0,
           Total_Pages: data.Total_Pages || 0,
           Current_Page: data.Current_Page || 0,
         });
@@ -53,26 +53,30 @@ export default function Home({ sortOption }) {
     fetchProducts();
   }, [selectedCategoryOption, selectedPriceOption]);
 
-
     const handlePriceChange = (sortOption) => {
       console.log("Price option changed to: ", sortOption);
       setSelectedPriceOption(sortOption);
+      if (sortOption !== 'default') {
+        setSelectedCategoryOption('default');
+      }
     };
 
     const handleCategoryChange = (sortOption) => {
-    setSelectedCategoryOption(sortOption);
+      setSelectedCategoryOption(sortOption);
+      if (sortOption !== 'default') {
+        setSelectedPriceOption('default');
+      }
     };
-
     
   return (
     <main>
         <div className='sort-menu'>
           <SearchBar />
-          <DropDownCategory onCategoryChange={handleCategoryChange} />
+          <DropDownCategory onCategoryChange={handleCategoryChange} selectedCategoryOption={selectedCategoryOption} />
           <DropDownPrice onPriceChange={handlePriceChange} selectedPriceOption={selectedPriceOption} />
         </div>
         <div>
-          <ProductsList selectedCategoryOption={selectedCategoryOption} setSelectedCategoryOption={setSelectedCategoryOption} selectedPriceOption={selectedPriceOption} setSelectedPriceOption={setSelectedPriceOption} items={items}  />
+          <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items}  />
         </div>
     </main>
   );

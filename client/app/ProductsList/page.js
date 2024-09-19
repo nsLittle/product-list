@@ -3,7 +3,8 @@ import React from 'react';
 import '../globals.css';
 
 export default function ProductsList({items, selectedCategoryOption, selectedPriceOption }) {
-
+console.log('Items received: ', items);
+console.log('Selected Category: ', selectedCategoryOption);
   const { All_Products, Queried_Products } = items;
   const productsToDisplay = (selectedCategoryOption !== 'default' || selectedPriceOption !== 'default')
     ? (Queried_Products || [])

@@ -18,35 +18,67 @@
 // )
 // }
 
+// 'use client';
+// import React from 'react';
+// import { useState } from 'react';
+// import '../globals.css';
+
+// export default function SearchBar({ onSearch }) {
+//   const [search, setSearch] = useState('');
+
+//   const handleSearchChange = (e) => {
+//     const value = e.target.value;
+//     console.log(value);
+//     setSearch(value);
+//     onSearch(value);
+//     if (value === '') {
+//       onSearch('');
+//     }
+//   };
+
+//   const handleKeyPress = async (e) => {
+//     if (e.key === "Enter") {
+//       onSearch(search);
+//     }
+//   }
+//   return (
+//     <main>
+//       <input
+//         className="search-bar"
+//         placeholder="Search"
+//         value={search}
+//         onChange={handleSearchChange}
+//         onKeyDown={handleKeyPress}
+//       />
+//     </main>
+//   )
+// };
+
 'use client';
 import React from 'react';
-import { useState } from 'react';
 import '../globals.css';
 
-export default function SearchBar({ onSearch }) {
-  const [search, setSearch] = useState('');
-
+// CHANGED: Added searchTerm prop
+export default function SearchBar({ onSearch, searchTerm }) {
+  // CHANGED: Removed local state, using prop instead
   const handleSearchChange = (e) => {
     const value = e.target.value;
     console.log(value);
-    setSearch(value);
     onSearch(value);
-    if (value === '') {
-      onSearch('');
-    }
   };
 
   const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
-      onSearch(search);
+      onSearch(searchTerm);
     }
   }
+
   return (
     <main>
       <input
         className="search-bar"
         placeholder="Search"
-        value={search}
+        value={searchTerm} // CHANGED: Using searchTerm prop
         onChange={handleSearchChange}
         onKeyDown={handleKeyPress}
       />
