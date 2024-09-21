@@ -70,7 +70,9 @@ router.get("/products", async (req, res, next) => {
     // QUERY FROM URL
     const category = req.query.category;
     const price = req.query.price;
-    const product = req.query.productName;
+    const product = req.query.product;
+
+    console.log('Parameters: ', { category, price, product })
 
     let query = {};
     let sortOptions = {};
@@ -86,15 +88,11 @@ router.get("/products", async (req, res, next) => {
     }
 
     if (product) {
-      query.name = { $regex: new RegExp(product, 'i') };
+      query.name = { $regex: new RegExp(`^${product}$`, 'i') };
     }
 
-    // SAMPLE URL QUERIES
-    // http://http://localhost:3000/products?price=lowest
-    // http://http://localhost:3000/products?price=highest
-    // http://localhost:3000/products?page=1&category=Tools&price=lowest
-    // http://localhost:3000/products?page=1&category=tools&price=highest
-    // http://localhost:8000/products?product=Refined Plastic Fish
+    console.log('Query: ', query);
+    console.log('Sort Options: ' , sortOptions);
 
     // RESPONSE FOR ALL PRODUCTS
     const products = await Product.find(query)
@@ -105,6 +103,10 @@ router.get("/products", async (req, res, next) => {
     const filteredProducts = products.filter(product => product.name && product.category && product.price && product.image);
 
     // RESPONSE FOR OTHER SORTS 
+    const productSearched = await Product.findOne(query)
+
+    const filteredProductSearched = productSearched && productSearched.name && productSearched.category && productSearched.price && productSearched.image ? productSearched : null;
+
     const sortedCategoryAlpha = await Product.find({})
       .sort({ category: 1, name: 1 })
       .skip(perPage * (page - 1))
@@ -160,7 +162,11 @@ router.get("/products", async (req, res, next) => {
 
     res.json({
       All_Products: filteredProducts,
-      Products_By_Category_Alpha: filteredSortedCategoryAlpha,
+
+      Product_Searched: filteredProductSearched,
+
+      Products_By_Category_Alpha: 
+      filteredSortedCategoryAlpha,
       Products_By_Category_Alpha_Reverse: filteredSortedCategoryAlphaReverse,
       Products_By_Product_Alpha: filteredSortedProductAlpha,
       Products_By_Product_Alpha_Reverse: filteredSortedProductAlphaReverse,

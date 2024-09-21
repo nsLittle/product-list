@@ -2,7 +2,7 @@
 import React from 'react';
 import '../globals.css';
 
-export default function ProductsList({items, selectedCategoryOption, selectedPriceOption }) {
+export default function ProductsList({items, selectedCategoryOption, selectedPriceOption, searchValue }) {
   console.log('Items received: ', items);
   console.log('Selected Category: ', selectedCategoryOption);
 
@@ -10,6 +10,11 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
     if (!items) {
       console.log('Items is not found or something');
       return [];
+    }
+
+    if (searchValue) {
+      console.log('Search Value: ', searchValue)
+      return items.Queried_Products || [];
     }
 
     if (selectedPriceOption !== 'default') {

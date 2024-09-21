@@ -6,14 +6,21 @@ If you have any questions about this project or the program in general, visit [p
 
 ### Project Description
 
-This first fullstack project is something something.
-The frontend is created using React Nextjs something something.
+This first fullstack project was created using Node Express for the backend, while the frontend was created using React Nextjs.
 
 ### Table of Contents
 
 - product-list
   - client
     - app
+      - DropDownCategory
+        - page.js
+      - DropDownPrice
+        - page.js
+      - ProductList
+        - page.js
+      - SearchBar
+        - page.js
       - globals.css
       - layout.js
       - page.js
@@ -34,10 +41,6 @@ The frontend is created using React Nextjs something something.
 
 ### Things to Add/Edit
 
-1. All of it
-2. Build React app for production:
-
-- cd client
-- npm run build
-
-3.
+1. Reread instructions
+2. Each page should load 6 products unless the array is out of products
+3. Allow lower/upper case in SearchBar

@@ -18,7 +18,8 @@ export default function Home({ sortOption }) {
     Total_Pages: 0,
     Current_Page: 0,
   });
-
+  const [searchValue, setSearchValue] = useState('');
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -30,6 +31,10 @@ export default function Home({ sortOption }) {
 
         if (selectedPriceOption !== 'default') {
           queryParams.push(`price=${selectedPriceOption}`);
+        }
+
+        if (searchValue) {
+          queryParams.push(`product=${encodeURIComponent(searchValue)}`);
         }
 
         const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
@@ -61,7 +66,7 @@ export default function Home({ sortOption }) {
       }
     };
     fetchProducts();
-  }, [selectedCategoryOption, selectedPriceOption]);
+  }, [selectedCategoryOption, selectedPriceOption, searchValue]);
 
     const handlePriceChange = (sortOption) => {
       console.log("Price option changed to: ", sortOption);
@@ -78,15 +83,22 @@ export default function Home({ sortOption }) {
       }
     };
     
+    const handleSearch = (newValue) => {
+      console.log('Search value: ', newValue);
+      setSearchValue(newValue);
+      setSelectedCategoryOption('default');
+      setSelectedPriceOption('default');
+    };
+
   return (
     <main>
         <div className='sort-menu'>
-          <SearchBar />
+          <SearchBar onSearch={handleSearch} value={searchValue} />
           <DropDownCategory onCategoryChange={handleCategoryChange} selectedCategoryOption={selectedCategoryOption} />
           <DropDownPrice onPriceChange={handlePriceChange} selectedPriceOption={selectedPriceOption} />
         </div>
         <div>
-          <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items}  />
+          <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue}  />
         </div>
     </main>
   );
