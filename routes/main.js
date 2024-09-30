@@ -154,7 +154,7 @@ router.get("/products", async (req, res, next) => {
     if (category || price || product) {
       return res.json({
         Queried_Products: filteredProducts,
-        Total_Porducts: count,
+        Total_Products: count,
         Total_Pages: Math.ceil(count / perPage),
         Current_Page: page,
       });
@@ -162,15 +162,11 @@ router.get("/products", async (req, res, next) => {
 
     res.json({
       All_Products: filteredProducts,
-
-      Product_Searched: filteredProductSearched,
-
       Products_By_Category_Alpha: 
       filteredSortedCategoryAlpha,
       Products_By_Category_Alpha_Reverse: filteredSortedCategoryAlphaReverse,
       Products_By_Product_Alpha: filteredSortedProductAlpha,
       Products_By_Product_Alpha_Reverse: filteredSortedProductAlphaReverse,
-      
       // Sorted_By_Price_Low: filteredSortedPriceLow,
       // Sorted_By_Price_High: filteredSortedPriceHigh,
       Total_Products: count,

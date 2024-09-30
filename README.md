@@ -35,12 +35,17 @@ This first fullstack project was created using Node Express for the backend, whi
 ### How to Run Application
 
 1. Open terminal
-2. Locate file: product-list
-3. Type: npm start dev
-4. Type: open http://localhost:3000 (or other appropriate host)
+2. Type: 'brew services start mongodb/brew/mongodb-community@5.0'
+3. Type: 'mongosh'
+4. Locate file: product-list
+5. Type: npm run dev
+6. Type: open http://localhost:8000 (or other appropriate host)
+7. Locate file: client
+8. Type: npm run dev
+9. Type: open http://localhost:3000 (or other appropriate host)
 
 ### Things to Add/Edit
 
-1. Reread instructions
+1. REREAD INSTRUCTIONS
 2. Each page should load 6 products unless the array is out of products
-3. Allow lower/upper case in SearchBar
+3.
