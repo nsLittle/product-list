@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategoryOption, setPriceOption, setSearchValue, setProducts } from './redux/actions/productActions.js';
 import SearchBar from './SearchBar/page.js';
@@ -14,7 +14,7 @@ export default function Home({ sortOption }) {
   const selectedCategoryOption = useSelector(state => state.products.selectedCategoryOption);
   const selectedPriceOption = useSelector(state => state.products.selectedPriceOption);
   const items = useSelector(state => state.products.items);
-  const searchValue = useSelector(state => state.products.searchValue);
+  const [searchValue, setSearchValue] = useState('');
   
   useEffect(() => {
     console.log('Redux items: ', items)
@@ -35,16 +35,18 @@ export default function Home({ sortOption }) {
         }
 
         const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-        console.log(queryString);
         const url = `http://localhost:8000/products${queryString}`;
-        console.log(url);
        
         const response = await fetch(url);
         const data = await response.json();
 
         dispatch(setProducts({
-          All_Products: queryParams.length === 0 ? data.All_Products : items.All_Products,
-          Queried_Products: queryParams.length > 0 ? data.Queried_Products : [],
+          All_Products: data.All_Products,
+          Products_By_Category_Alpha: data.Products_By_Category_Alpha,
+          Products_By_Category_Alpha_Reverse: data.Products_By_Category_Alpha_Reverse,
+          Products_By_Product_Alpha: data.Products_By_Product_Alpha,
+          Products_By_Product_Alpha_Reverse: data.Products_By_Product_Alpha_Reverse,
+          Queried_Products: data.Queried_Products,
           Total_Products: data.Total_Products,
           Total_Pages: data.Total_Pages,
           Current_Page: data.Current_Page,
@@ -58,6 +60,7 @@ export default function Home({ sortOption }) {
 
   useEffect(() => {
     console.log('Redux Items: ', items);
+    console.log('Redux selectedCategoryOptions: ', selectedCategoryOption);
   }, [items]);
 
     const handlePriceChange = (sortOption) => {
@@ -75,6 +78,7 @@ export default function Home({ sortOption }) {
     };
     
     const handleSearch = (newValue) => {
+      setSearchValue(newValue);
       dispatch(setSearchValue(newValue));
       dispatch(setCategoryOption('default'));
       dispatch(setPriceOption('default'));

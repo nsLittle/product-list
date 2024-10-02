@@ -1,19 +1,20 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import '../globals.css';
 
-export default function SearchBar({ onSearch, value }) {
+export default function SearchBar({ onSearch }) {
+
+  const [newValue, setNewValue] = useState('');
 
   const handleSearchChange = (e) => {
-    const newValue = e.target.value;
-    onSearch(newValue);
-    console.log(newValue);
+    setNewValue(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
-      onSearch(value);
-      console.log(value);
+      onSearch(newValue);
+      console.log(newValue);
     }
   };
 
@@ -22,7 +23,7 @@ export default function SearchBar({ onSearch, value }) {
       <input
         className="search-bar"
         placeholder="Search"
-        value={value}
+        value={newValue}
         onChange={handleSearchChange}
         onKeyDown={handleKeyPress}
       />

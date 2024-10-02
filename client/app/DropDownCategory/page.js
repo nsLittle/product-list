@@ -6,7 +6,6 @@ export default function DropDownCategory({ selectedCategoryOption, onCategoryCha
 
   const handleChange = (e) => {
     const sortOption = e.target.value;
-    console.log(sortOption);
     onCategoryChange(sortOption);
   }
 

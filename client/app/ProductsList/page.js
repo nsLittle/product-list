@@ -24,7 +24,7 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
     if (selectedCategoryOption !== 'default') {
       switch (selectedCategoryOption) {
         case 'ascending-category':
-          return items.Products_By_Category_Alpha;
+          return items.Products_By_Category_Alpha || [];
         case 'descending-category':
           return items.Products_By_Category_Alpha_Reverse || [];
         case 'ascending-products':
@@ -46,8 +46,8 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
   return (
     <main>
       <div className="product-list">
-        {productsToDisplay.length > 0 ? (
-          productsToDisplay.map((item) => (
+        {Array.isArray(productsToDisplay) && productsToDisplay.length > 0 ? (
+          productsToDisplay.map((item) =>(
             <div key={item.id} className='product-card'>
               <div className="product-details">
                 <p className="product-category">Category: {item.category}</p>
