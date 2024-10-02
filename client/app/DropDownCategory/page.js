@@ -15,7 +15,7 @@ export default function DropDownCategory({ selectedCategoryOption, onCategoryCha
       <select
         value={selectedCategoryOption}
         onChange={handleChange}
-        className="drop-cateogry"
+        className="drop-category"
       >
         <option value="default">Sort by Category</option>
         <option value="ascending-category">Category Ascending (A-Z)</option>
