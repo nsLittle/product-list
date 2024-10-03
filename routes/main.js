@@ -64,7 +64,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   try {
-    const perPage = 6;
+    const perPage = 9;
     const page = parseInt(req.query.page, 10) || 1;
 
     // QUERY FROM URL

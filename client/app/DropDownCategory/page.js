@@ -17,10 +17,14 @@ export default function DropDownCategory({ selectedCategoryOption, onCategoryCha
         className="drop-category"
       >
         <option value="default">Sort by Category</option>
-        <option value="ascending-category">Category Ascending (A-Z)</option>
-        <option value="descending-category">Category Descending (Z-A)</option>
-        <option value="ascending-product">Product Ascending (A-Z)</option>
-        <option value="descending-product">Product Descending (Z-A)</option>
+        <option value="Automotive">Automotive</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Games">Games</option>
+        <option value="Garden">Garden</option>
+        <option value="Home">Home</option>
+        <option value="Outdoors">Outdoors</option>
+        <option value="Tools">Tools</option>
+        <option value="Toys">Toys</option>
       </select>
     </main>
   )

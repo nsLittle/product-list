@@ -3,17 +3,13 @@ import React from 'react';
 import '../globals.css';
 
 export default function ProductsList({items, selectedCategoryOption, selectedPriceOption, searchValue }) {
-  console.log('Items received: ', items);
-  console.log('Selected Category: ', selectedCategoryOption);
 
   const getProductsToDisplay = () => {
     if (!items) {
-      console.log('Items is not found or something');
       return [];
     }
 
     if (searchValue) {
-      console.log('Search Value: ', searchValue)
       return items.Queried_Products || [];
     }
 
@@ -22,26 +18,13 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
     }
 
     if (selectedCategoryOption !== 'default') {
-      switch (selectedCategoryOption) {
-        case 'ascending-category':
-          return items.Products_By_Category_Alpha || [];
-        case 'descending-category':
-          return items.Products_By_Category_Alpha_Reverse || [];
-        case 'ascending-products':
-          return items.Products_By_Product_Alpha || [];
-        case 'descending-products':
-          return items.Products_By_Product_Alpha_Reverse || [];
-        default:
-          console.log('Selected Category Option: ', selectedCategoryOption);
-          console.log(items.All_Products);
-          return items.All_Products || [];
-      }
+      return items.Queried_Products || [];
     }
+
     return items.All_Products || [];
   }
 
   const productsToDisplay = getProductsToDisplay();
-  console.log(productsToDisplay)
 
   return (
     <main>
