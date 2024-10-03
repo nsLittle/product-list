@@ -1,5 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
+import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategoryOption, setPriceOption, setSearchValue, setProducts } from './redux/actions/productActions.js';
 import SearchBar from './SearchBar/page.js';
@@ -7,6 +9,7 @@ import ProductsList from './ProductsList/page.js';
 import './globals.css';
 import DropDownCategory from './DropDownCategory/page.js';
 import DropDownPrice from './DropDownPrice/page.js';
+import ReturnLink from './ReturnLink/page.js';
 
 export default function Home({ sortOption }) {
   const dispatch = useDispatch();
@@ -17,7 +20,6 @@ export default function Home({ sortOption }) {
   const [searchValue, setSearchValue] = useState('');
   
   useEffect(() => {
-    console.log('Redux items: ', items)
     const fetchProducts = async () => {
       try {
         const queryParams = [];
@@ -85,6 +87,7 @@ export default function Home({ sortOption }) {
     };
 
   return (
+    <Provider store={store}>
     <main>
         <div className='sort-menu'>
           <SearchBar onSearch={handleSearch} value={searchValue} />
@@ -94,6 +97,10 @@ export default function Home({ sortOption }) {
         <div>
           <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue}  />
         </div>
+        <div>
+          <ReturnLink />
+        </div>
     </main>
+    </Provider>
   );
 }

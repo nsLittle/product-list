@@ -72,13 +72,11 @@ router.get("/products", async (req, res, next) => {
     const price = req.query.price;
     const product = req.query.product;
 
-    console.log('Parameters: ', { category, price, product })
-
     let query = {};
     let sortOptions = {};
 
     if (category) {
-      query.category = { $regex: new RegExp(category, 'i') };
+      query.category = { $regex: new RegExp(`^${category}$`, 'i') };
     }
 
     if (price === 'highest') {
@@ -90,9 +88,6 @@ router.get("/products", async (req, res, next) => {
     if (product) {
       query.name = { $regex: new RegExp(`^${product}$`, 'i') };
     }
-
-    console.log('Query: ', query);
-    console.log('Sort Options: ' , sortOptions);
 
     // RESPONSE FOR ALL PRODUCTS
     const products = await Product.find(query)
@@ -167,8 +162,6 @@ router.get("/products", async (req, res, next) => {
       Products_By_Category_Alpha_Reverse: filteredSortedCategoryAlphaReverse,
       Products_By_Product_Alpha: filteredSortedProductAlpha,
       Products_By_Product_Alpha_Reverse: filteredSortedProductAlphaReverse,
-      // Sorted_By_Price_Low: filteredSortedPriceLow,
-      // Sorted_By_Price_High: filteredSortedPriceHigh,
       Total_Products: count,
       Total_Pages: Math.ceil(count / perPage),
       Current_Page: page

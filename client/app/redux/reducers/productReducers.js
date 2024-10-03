@@ -1,3 +1,5 @@
+
+
 const initialState = {
   selectedCategoryOption: 'default',
   selectedPriceOption: 'default',
@@ -37,6 +39,13 @@ const productsReducer = (state = initialState, action) => {
         ...state,
         items: action.payload,
       };
+      case 'RESET_FILTERS':
+        return {
+          ...state,
+          selectedCategoryOption: 'default',
+          selectedPriceOption: 'dafault',
+          searchValue: '',
+        }
     default:
       return state;
   }

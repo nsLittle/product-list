@@ -48,12 +48,10 @@ This first fullstack project was created using Node Express for the backend, whi
 
 1. REREAD INSTRUCTIONS
 2. 6 products/page!!!
-3. Drop Down Category needs to be by NAME OF CATEOGRY
-4. Search Bar
-5. Total Products | Total Pages | Current Page
-6. Product Card needs to be extended by 20px on bottom
-7. Reviews?
-8. Product List link???
-9. Table of Contents on README
-10. $$$ for price on Product Card
-11. Category Drop Down
+3. ADD total products, total page, current page
+4. Reviews?
+5. Product List link???
+6. Table of Contents on README
+7. $$$ for price on Product Card
+8. Category Drop Down 6 products/page
+9. FIX product-details bleeds to second line when long
