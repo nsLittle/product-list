@@ -64,7 +64,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   try {
-    const perPage = 9;
+    const perPage = 6;
     const page = parseInt(req.query.page, 10) || 1;
 
     // QUERY FROM URL
@@ -72,7 +72,12 @@ router.get("/products", async (req, res, next) => {
     const price = req.query.price;
     const product = req.query.product;
 
-    let query = {};
+    let query = {
+      name: { $ne: null },
+      category: { $ne: null },
+      price: { $ne: null },
+      image: { $ne: null }
+    };
     let sortOptions = {};
 
     if (category) {
