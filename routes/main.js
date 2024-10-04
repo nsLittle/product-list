@@ -94,6 +94,7 @@ router.get("/products", async (req, res, next) => {
       query.name = { $regex: new RegExp(`^${product}$`, 'i') };
     }
 
+  
     // RESPONSE FOR ALL PRODUCTS
     const products = await Product.find(query)
       .sort(sortOptions)
