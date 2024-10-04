@@ -19,8 +19,17 @@ This first fullstack project was created using Node Express for the backend, whi
         - page.js
       - ProductList
         - page.js
+      - ReturnLink
+        - page.js
       - SearchBar
         - page.js
+      - redux
+        - actions
+          - productActions.js
+        - reducers
+          - index.js
+          - productReducers.js
+        - store.sj
       - globals.css
       - layout.js
       - page.js
@@ -47,11 +56,6 @@ This first fullstack project was created using Node Express for the backend, whi
 ### Things to Add/Edit
 
 1. REREAD INSTRUCTIONS
-2. 6 products/page!!!
-3. ADD total products, total page, current page
-4. Reviews?
-5. Product List link???
-6. Table of Contents on README
-7. $$$ for price on Product Card
-8. Category Drop Down 6 products/page
-9. FIX product-details bleeds to second line when long
+2. Reviews?
+3. 6 products/page!!!
+4. Make the stats pretty
