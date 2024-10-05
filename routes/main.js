@@ -56,7 +56,7 @@ router.get("/generate-fake-data", async (req, res, next) => {
 
 router.get("/", (req, res, next) => {
     try {
-      res.send("We're building something here, but I don't know what yet...");
+      res.send("We're building a whole fake store!");
     } catch (error) {
       next(error);
     }
@@ -94,7 +94,6 @@ router.get("/products", async (req, res, next) => {
       query.name = { $regex: new RegExp(`^${product}$`, 'i') };
     }
 
-  
     // RESPONSE FOR ALL PRODUCTS
     const products = await Product.find(query)
       .sort(sortOptions)
@@ -178,11 +177,9 @@ router.get("/products", async (req, res, next) => {
 });
 
 router.get("/products/:product", async (req, res, next) => {
-  console.log('Product Detail...');
 
   try {
     const productName = req.params.product;
-    console.log(productName);
 
     const productDetails = await Product.find({ name: productName })
 
@@ -197,7 +194,6 @@ router.get("/products/:product/reviews", async (req, res, next) => {
 
   try {
     const productName = req.params.product;
-    console.log(productName);
 
     const productWithReviews = await Product.findOne({ name: productName })
       .populate({
@@ -216,11 +212,9 @@ router.get("/products/:product/reviews", async (req, res, next) => {
 });
 
 router.post("/products", async (req, res, next) => {
-  console.log('Creating a New Product...');
 
   try {
     const productDetails = req.body;
-    console.log(productDetails);
 
     const newProduct = new Product(productDetails);
     await newProduct.save();

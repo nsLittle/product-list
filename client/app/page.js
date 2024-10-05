@@ -1,18 +1,21 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
+import  { useRouter } from 'next/navigation';
 import { setCategoryOption, setPriceOption, setSearchValue, setProducts } from './redux/actions/productActions.js';
 import SearchBar from './SearchBar/page.js';
 import ProductsList from './ProductsList/page.js';
 import './globals.css';
 import DropDownCategory from './DropDownCategory/page.js';
 import DropDownPrice from './DropDownPrice/page.js';
-import ReturnLink from './ReturnLink/page.js';
+import ReturnButton from './ReturnButton/page.js';
 
 export default function Home({ sortOption }) {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const selectedCategoryOption = useSelector(state => state.products.selectedCategoryOption);
   const selectedPriceOption = useSelector(state => state.products.selectedPriceOption);
@@ -63,7 +66,25 @@ export default function Home({ sortOption }) {
   useEffect(() => {
     console.log('Redux Items: ', items);
     console.log('Redux selectedCategoryOptions: ', selectedCategoryOption);
-  }, [items]);
+
+    const query = {};
+
+    if (selectedCategoryOption !== 'default') {
+      query.category = selectedCategoryOption;
+    }
+    if (selectedPriceOption !== 'default') {
+      query.price = selectedPriceOption;
+    }
+    if (searchValue) {
+      query.product = searchValue;
+    }
+
+    router.push({
+      pathname:  '/products',
+      query: query,
+    });
+
+  }, [selectedCategoryOption, selectedPriceOption, searchValue,items, router]);
 
     const handlePriceChange = (sortOption) => {
       dispatch(setPriceOption(sortOption));
@@ -98,7 +119,7 @@ export default function Home({ sortOption }) {
           <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue}  />
         </div>
         <div>
-          <ReturnLink />
+          <ReturnButton />
         </div>
     </main>
     </Provider>

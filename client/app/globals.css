@@ -80,9 +80,31 @@ li {
   font-size: 32px;
 }
 
-.return-link {
+.return-button {
   text-align: center;
-  color: blue;
+  background-color: rgb(98, 98, 102);
+  color: white;
+  height: 65px;
+  width: 220px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.return-button:hover {
+  background-color: rgb(120, 120, 125); /* Slightly lighter on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+}
+
+.return-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .product-stats {

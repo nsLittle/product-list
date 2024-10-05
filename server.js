@@ -23,8 +23,6 @@ console.log("We're in the app...");
 const mainRoutes = require("./routes/main");
 app.use(mainRoutes);
 
-console.log("The app is routing us to /main");
-
 app.listen(8000, () => {
   console.log("Node.js listening on port " + 8000);
 });

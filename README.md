@@ -58,9 +58,9 @@ This first fullstack project was created using Node Express for the backend, whi
 1. REREAD INSTRUCTIONS
 2. Reviews?
 3. Make the stats pretty
-4. Add categories: shoes, health, baby, beauty, computers, electronics, industrial, music, sports, books
-5. Make it work:
+4. Make it work:
    /products?category=Tools
    /products?price=highest
    /products?product=Sleek Rubber Fish
-6. Need React Router to make it all work?
+5. Need React Router to make it all work?
+6. Make sort by price work with sort by category
