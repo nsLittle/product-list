@@ -15,17 +15,19 @@ li {
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 40px;
+  gap: 15px;
 }
 
 .search-bar {
-  width: 450px;
-  height: 20px;
+  width: 400px;
+  height: 25px;
 }
 
 .drop-category,
 .drop-price {
   width: 225px;
   height: 30px;
+  padding-left: 10px;
 }
 
 .product-list {
@@ -80,33 +82,38 @@ li {
   font-size: 32px;
 }
 
-.return-button {
-  text-align: center;
-  background-color: rgb(98, 98, 102);
-  color: white;
-  height: 65px;
-  width: 220px;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.product-stats-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
 }
 
-.return-button:hover {
-  background-color: rgb(120, 120, 125); /* Slightly lighter on hover */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+.product-stats {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: white;
+  border: 3px solid black;
+  border-color: black;
+  color: rgb(11, 11, 11);
+  height: 130px;
+  width: 280px;
+  border: none;
 }
 
 .return-box {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
 }
 
-.product-stats {
+.return-link {
+  display: inline-block;
   text-align: center;
+  font-size: 16px;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0 auto;
+  padding: 30px;
 }

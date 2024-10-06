@@ -47,8 +47,12 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
           <p>No products found</p>
         )}
       </div>
-      <div className="product-stats">
-        <p>Total Products: {productsToDisplay.stats.totalProducts} | Total Pages: {productsToDisplay.stats.totalPages} | Current Page: {productsToDisplay.stats.currentPage}</p>
+      <div className="product-stats-box">
+        <div className="product-stats">
+          <p>Total Products: {productsToDisplay.stats.totalProducts}</p>
+          <p>Total Pages: {productsToDisplay.stats.totalPages}</p>
+          <p>Current Page: {productsToDisplay.stats.currentPage}</p>
+        </div>
       </div>
     </main>
   );

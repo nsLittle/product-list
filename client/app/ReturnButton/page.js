@@ -10,7 +10,7 @@ export default function ReturnButton() {
   return (
     <>
       <div className="return-box">
-        <button className="return-button" onClick={handleClick}>Return to All Products List</button>
+        <a className="return-link" onClick={handleClick}>Return to Unsorted List</a>
       </div>
     </>
   )
