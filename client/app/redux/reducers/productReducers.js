@@ -43,7 +43,7 @@ const productsReducer = (state = initialState, action) => {
         return {
           ...state,
           selectedCategoryOption: 'default',
-          selectedPriceOption: 'dafault',
+          selectedPriceOption: 'default',
           searchValue: '',
         }
     default:

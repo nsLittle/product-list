@@ -1,15 +1,15 @@
-export const setCategoryOption = (categoryOption) => ({
+export const setCategoryOption = (category) => ({
   type: 'SET_CATEGORY_OPTION',
-  payload: categoryOption,
+  payload: category
 });
 
-export const setPriceOption = (priceOption) => ({
+export const setPriceOption = (price) => ({
   type: 'SET_PRICE_OPTION',
-  payload: priceOption,
+  payload: price,
 });
 
 export const setSearchValue = (searchValue) => ({
-  type: 'SET_SEARCH-VALUE',
+  type: 'SET_SEARCH_VALUE',
   payload: searchValue,
 });
 

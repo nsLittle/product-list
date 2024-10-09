@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
+import { Provider, shallowEqual } from 'react-redux';
 import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
 import  { useRouter } from 'next/navigation';
@@ -41,9 +41,12 @@ export default function Home({ sortOption }) {
 
         const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
         const url = `http://localhost:8000/products${queryString}`;
+        console.log('Url: ', url);
        
         const response = await fetch(url);
         const data = await response.json();
+
+        console.log('Data: ',data);
 
         dispatch(setProducts({
           All_Products: data.All_Products,
@@ -63,41 +66,42 @@ export default function Home({ sortOption }) {
     fetchProducts();
   }, [selectedCategoryOption, selectedPriceOption, searchValue, dispatch]);
 
-  useEffect(() => {
-    console.log('Redux Items: ', items);
-    console.log('Redux selectedCategoryOptions: ', selectedCategoryOption);
 
-    const query = {};
+  const updateUrl = (newQuery) => {
+    const query = {
+      category: selectedCategoryOption !== 'default' ? selectedCategoryOption : undefined,
+      price: selectedPriceOption !== 'default' ? selectedPriceOption : undefined,
+      product: searchValue || undefined,
+      ...newQuery,
+    };
 
-    if (selectedCategoryOption !== 'default') {
-      query.category = selectedCategoryOption;
-    }
-    if (selectedPriceOption !== 'default') {
-      query.price = selectedPriceOption;
-    }
-    if (searchValue) {
-      query.product = searchValue;
-    }
+    const filteredQuery = Object.fromEntries(Object.entries(query).filter(([_, v]) => v != null));
+    
+    const queryString = new URLSearchParams(filteredQuery).toString();
+    const browserUrl = `?${queryString}`;
+    console.log('Browser URL: ', `http://localhost:3000${browserUrl}`);
 
-    router.push({
-      pathname:  '/products',
-      query: query,
-    });
-
-  }, [selectedCategoryOption, selectedPriceOption, searchValue,items, router]);
+    router.replace(browserUrl, undefined, { shallow: true });
+  };
 
     const handlePriceChange = (sortOption) => {
       dispatch(setPriceOption(sortOption));
+
       if (sortOption !== 'default') {
         dispatch(setCategoryOption('default'));
       }
+
+      updateUrl({ price: sortOption });
     };
 
     const handleCategoryChange = (sortOption) => {
       dispatch(setCategoryOption(sortOption));
+
       if (sortOption !== 'default') {
         dispatch(setPriceOption('default'));
       }
+
+      updateUrl({ category: sortOption });
     };
     
     const handleSearch = (newValue) => {
@@ -105,6 +109,8 @@ export default function Home({ sortOption }) {
       dispatch(setSearchValue(newValue));
       dispatch(setCategoryOption('default'));
       dispatch(setPriceOption('default'));
+
+      updateUrl({ product: newValue });
     };
 
   return (

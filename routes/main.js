@@ -101,6 +101,66 @@ router.get("/products", async (req, res, next) => {
       .limit(perPage)
 
     const filteredProducts = products.filter(product => product.name && product.category && product.price && product.image);
+    
+    // const count = await Product.countDocuments(query);
+
+    // if (category || price || product) {
+    //   return res.json({
+    //       Queried_Products: filteredProducts,
+    //       Total_Products: count,
+    //       Total_Pages: Math.ceil(count / perPage),
+    //       Current_Page: page,
+    //   });
+    // }
+    
+    // const sortConditions = {
+    //   categoryAlpha: { category: 1, name: 1 },
+    //   categoryAlphaReverse: { category: -1, name: -1 },
+    //   productAlpha: { name: 1 },
+    //   productAlphaReverse: { name: -1 },
+    //   priceLow: { price: 1 },
+    //   priceHigh: { price: -1 }
+    // };
+
+    // const [
+    //   sortedCategoryAlpha,
+    //   sortedCategoryAlphaReverse,
+    //   sortedProductAlpha,
+    //   sortedProductAlphaReverse
+    // ] = await Promise.all([
+    //   Product
+    //     .find(query)
+    //     .sort(sortConditions.categoryAlpha)
+    //     .skip(perPage * (page - 1))
+    //     .limit(perPage),
+    //   Product
+    //     .find(query)
+    //     .sort(sortConditions.categoryAlphaReverse)
+    //     .skip(perPage * (page - 1))
+    //     .limit(perPage)
+    //   Product
+    //     .find(query)
+    //     .sort(sortConditions.productAlpha)
+    //     .skip(perPage * (page - 1))
+    //     .limit(perPage)
+    //   Product
+    //     .find(query)
+    //     .sort(sortCondition.productAlphaReverse)
+    //     .limit(perPage)
+    // ]);
+
+    // const filteredSortedCategoryAlpha = sortedCategoryAlpha.filter(product => product.name && product.category && product.price && product.image);
+    // const filteredSortedCategoryAlphaReverse = sortedCategoryAlphaReverse.filter(product => product.name && product.category && product.price && product.image);
+    // const filteredSortedProductAlpha = sortedProductAlpha.filter(product => product.name && product.category && product.price && product.image);
+    // const filteredSortedProductAlphaReverse = sortedProductAlphaReverse.filter(product => product.name && product.category && product.price && product.image);
+
+
+
+
+
+
+
+
 
     // RESPONSE FOR OTHER SORTS 
     const productSearched = await Product.findOne(query)

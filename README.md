@@ -62,5 +62,6 @@ This first fullstack project was created using Node Express for the backend, whi
    /products?category=Tools
    /products?price=highest
    /products?product=Sleek Rubber Fish
-5. Need React Router to make it all work?
-6. Make sort by price work with sort by category
+   \*\*Need React Router to make it all work?
+5. Make sort by price work with sort by category
+6. Last Page link and Next Page link
