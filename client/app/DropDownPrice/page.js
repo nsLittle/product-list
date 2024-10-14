@@ -6,9 +6,7 @@ export default function DropDownPrice({ onPriceChange, selectedPriceOption }) {
 
   const handlePriceChange = (e) => {
     const sortOption = e.target.value;
-    console.log(sortOption);
     onPriceChange(sortOption);
-    console.log(onPriceChange);
   };
 
   return (

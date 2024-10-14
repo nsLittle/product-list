@@ -104,21 +104,11 @@ export default function Home({ sortOption }) {
 
     const handlePriceChange = (sortOption) => {
       dispatch(setPriceOption(sortOption));
-
-      if (sortOption !== 'default') {
-        dispatch(setCategoryOption('default'));
-      }
-
       updateUrl({ price: sortOption });
     };
 
     const handleCategoryChange = (sortOption) => {
       dispatch(setCategoryOption(sortOption));
-
-      if (sortOption !== 'default') {
-        dispatch(setPriceOption('default'));
-      }
-
       updateUrl({ category: sortOption });
     };
     
