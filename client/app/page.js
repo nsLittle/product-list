@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Provider, shallowEqual } from 'react-redux';
 import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ export default function Home({ sortOption }) {
   const selectedCategoryOption = useSelector(state => state.products.selectedCategoryOption);
   const selectedPriceOption = useSelector(state => state.products.selectedPriceOption);
   const items = useSelector(state => state.products.items);
-  const [searchValue, setSearchValue] = useState('');
+  const searchValue = useSelector(state => state.products.searchValue);
   
   useEffect(() => {
     const fetchProducts = async () => {
@@ -66,6 +66,16 @@ export default function Home({ sortOption }) {
     fetchProducts();
   }, [selectedCategoryOption, selectedPriceOption, searchValue, dispatch]);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const category = queryParams.get('category') || 'default';
+    const price = queryParams.get('price') || 'default';
+    const product = queryParams.get('product') || '';
+
+    dispatch(setCategoryOption(category));
+    dispatch(setPriceOption(price));
+    dispatch(setSearchValue(product));
+  }, [window.location.search, dispatch]);
 
   const updateUrl = (newQuery) => {
     const query = {
@@ -105,7 +115,6 @@ export default function Home({ sortOption }) {
     };
     
     const handleSearch = (newValue) => {
-      setSearchValue(newValue);
       dispatch(setSearchValue(newValue));
       dispatch(setCategoryOption('default'));
       dispatch(setPriceOption('default'));

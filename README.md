@@ -58,10 +58,8 @@ This first fullstack project was created using Node Express for the backend, whi
 1. REREAD INSTRUCTIONS
 2. Reviews?
 3. Make the stats pretty
-4. Make it work:
-   /products?category=Tools
-   /products?price=highest
-   /products?product=Sleek Rubber Fish
-   \*\*Need React Router to make it all work?
-5. Make sort by price work with sort by category
-6. Last Page link and Next Page link
+4. Stack queries (BE works; FE shows url, but not correct rendering)
+5. Last Page link and Next Page link
+6. Search results must clear before DropDownCategory and DropDownPrice
+7. Search Bar value needs to align with url query string
+8. Move All Products link to top of page
