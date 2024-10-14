@@ -5,7 +5,7 @@ import { Provider, shallowEqual } from 'react-redux';
 import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
 import  { useRouter } from 'next/navigation';
-import { setCategoryOption, setPriceOption, setSearchValue, setProducts } from './redux/actions/productActions.js';
+import { setCategoryOption, setPriceOption, setSearchValue, setProducts, resetFilters } from './redux/actions/productActions.js';
 import SearchBar from './SearchBar/page.js';
 import ProductsList from './ProductsList/page.js';
 import './globals.css';
@@ -75,7 +75,15 @@ export default function Home({ sortOption }) {
     dispatch(setCategoryOption(category));
     dispatch(setPriceOption(price));
     dispatch(setSearchValue(product));
-  }, [window.location.search, dispatch]);
+  }, [router, dispatch]);
+
+  const refreshFilters = () => {
+    dispatch(setCategoryOption('default'));
+    dispatch(setPriceOption('default'));
+    dispatch(setSearchValue(''));
+
+    router.push('/');
+  };
 
   const updateUrl = (newQuery) => {
     const query = {
@@ -134,9 +142,9 @@ export default function Home({ sortOption }) {
           <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue}  />
         </div>
         <div>
-          <ReturnButton />
+          <ReturnButton refreshFilters={refreshFilters} />
         </div>
     </main>
     </Provider>
   );
-}
+};

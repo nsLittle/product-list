@@ -1,10 +1,9 @@
 import React from "react";
 
-
-export default function ReturnButton() {
+export default function ReturnButton({ refreshFilters }) {
   
   const handleClick = () => {
-    window.location.reload();
+    refreshFilters();
   }
 
   return (

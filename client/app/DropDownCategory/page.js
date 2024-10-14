@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import '../globals.css';
 
 export default function DropDownCategory({ selectedCategoryOption, onCategoryChange }) {
@@ -8,7 +8,14 @@ export default function DropDownCategory({ selectedCategoryOption, onCategoryCha
   const handleChange = (e) => {
     const sortOption = e.target.value;
     onCategoryChange(sortOption);
-  }
+
+    if (sortOption === 'default') {
+      router.replace('/', undefined, { shallow: true });
+    } else {
+      const newQuery = new URLSearchParams({ category: sortOption }).toString();
+      router.replace(`/?${newQuery}`, undefined, { shallow: true });
+    }
+  };
 
   return (
     <main>
