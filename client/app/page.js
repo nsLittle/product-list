@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { Provider, shallowEqual } from 'react-redux';
 import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
 import  { useRouter } from 'next/navigation';
@@ -103,13 +102,23 @@ export default function Home({ sortOption }) {
   };
 
     const handlePriceChange = (sortOption) => {
-      dispatch(setPriceOption(sortOption));
-      updateUrl({ price: sortOption });
+      if (sortOption === 'default') {
+        dispatch(setPriceOption(sortOption));
+        updateUrl({ price: undefimed });
+      } else {
+        dispatch(setPriceOption(sortOption));
+        updateUrl({ price: sortOption });
+      }
     };
 
     const handleCategoryChange = (sortOption) => {
-      dispatch(setCategoryOption(sortOption));
-      updateUrl({ category: sortOption });
+      if (sortOption === 'default') {
+        dispatch(setCategoryOption(sortOption));
+        updateUrl({ category: undefined });
+      } else {
+        dispatch(setCategoryOption(sortOption));
+        updateUrl({ category: sortOption });
+      }
     };
     
     const handleSearch = (newValue) => {
@@ -121,7 +130,6 @@ export default function Home({ sortOption }) {
     };
 
   return (
-    <Provider store={store}>
     <main>
         <div className='sort-menu'>
           <SearchBar onSearch={handleSearch} value={searchValue} />
@@ -135,6 +143,5 @@ export default function Home({ sortOption }) {
           <ReturnButton refreshFilters={refreshFilters} />
         </div>
     </main>
-    </Provider>
   );
 };
