@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import '../globals.css';
 
 export default function ProductsList({items, selectedCategoryOption, selectedPriceOption, searchValue }) {
+  const dispatch = useDispatch();
 
   const getProductsToDisplay = () => {
     if (!items) {
@@ -17,18 +18,24 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
     return items.All_Products || [];
   };
 
-  const getStatsToDisplay = () => {
-    return {
-      totalProducts: items.Total_Products,
-      totalPages: items.Total_Pages,
-      currentPage: items.Current_Page
-    };
-  };
+  // const getStatsToDisplay = () => {
+  //   return {
+  //     totalProducts: items.Total_Products,
+  //     totalPages: items.Total_Pages,
+  //     currentPage: items.Current_Page
+  //   };
+  // };
 
   const productsToDisplay = {
     products: getProductsToDisplay(),
-    stats: getStatsToDisplay()
+    // stats: getStatsToDisplay()
   };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages){
+      dispatch()
+    }
+  }
 
   return (
     <main>
@@ -47,13 +54,6 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
         ) : (
           <p>No products found</p>
         )}
-      </div>
-      <div className="product-stats-box">
-        <div className="product-stats">
-          <p>Total Products: {productsToDisplay.stats.totalProducts}</p>
-          <p>Total Pages: {productsToDisplay.stats.totalPages}</p>
-          <p>Current Page: {productsToDisplay.stats.currentPage}</p>
-        </div>
       </div>
     </main>
   );

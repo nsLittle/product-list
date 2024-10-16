@@ -11,78 +11,151 @@ import './globals.css';
 import DropDownCategory from './DropDownCategory/page.js';
 import DropDownPrice from './DropDownPrice/page.js';
 import ReturnButton from './ReturnButton/page.js';
+import ProductStats from './ProductStats/page.js';
+import LastPage from './LastPage/page.js';
+import NextPage from './NextPage/page.js';
+import { set } from 'mongoose';
 
 export default function Home({ sortOption }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const items = useSelector(state => state.products.items);
   const selectedCategoryOption = useSelector(state => state.products.selectedCategoryOption);
   const selectedPriceOption = useSelector(state => state.products.selectedPriceOption);
-  const items = useSelector(state => state.products.items);
   const searchValue = useSelector(state => state.products.searchValue);
-  
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const queryParams = [];
+  const currentPage = useSelector(state => state.products.Current_Page);
+  const totalPages = useSelector(state => state.products.Total_Pages);
 
-        if (selectedCategoryOption !== 'default') {
-          queryParams.push(`category=${encodeURIComponent(selectedCategoryOption)}`);
-        }
+  const fetchProducts = async (page = currentPage) => {
+    try {
+      const queryParams = [];
 
-        if (selectedPriceOption !== 'default') {
-          queryParams.push(`price=${selectedPriceOption}`);
-        }
-
-        if (searchValue) {
-          queryParams.push(`product=${encodeURIComponent(searchValue)}`);
-        }
-
-        const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-        const url = `http://localhost:8000/products${queryString}`;
-        console.log('Url: ', url);
-       
-        const response = await fetch(url);
-        const data = await response.json();
-
-        console.log('Data: ',data);
-
-        dispatch(setProducts({
-          All_Products: data.All_Products,
-          Products_By_Category_Alpha: data.Products_By_Category_Alpha,
-          Products_By_Category_Alpha_Reverse: data.Products_By_Category_Alpha_Reverse,
-          Products_By_Product_Alpha: data.Products_By_Product_Alpha,
-          Products_By_Product_Alpha_Reverse: data.Products_By_Product_Alpha_Reverse,
-          Queried_Products: data.Queried_Products,
-          Total_Products: data.Total_Products,
-          Total_Pages: data.Total_Pages,
-          Current_Page: data.Current_Page,
-        }))
-      } catch (error) {
-        console.error('Error fetching complete product listing:', error);
+    if (selectedCategoryOption !== 'default') {
+        queryParams.push(`category=${encodeURIComponent(selectedCategoryOption)}`);
       }
-    };
-    fetchProducts();
-  }, [selectedCategoryOption, selectedPriceOption, searchValue, dispatch]);
+
+      if (selectedPriceOption !== 'default') {
+        queryParams.push(`price=${selectedPriceOption}`);
+      }
+
+      if (searchValue) {
+        queryParams.push(`product=${encodeURIComponent(searchValue)}`);
+      }
+
+      if (currentPage) {
+        queryParams.push(`page=${encodeURIComponent(currentPage)}`);
+      }
+
+      queryParams.push(`page=${page}`);
+
+      const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+      const url = `http://localhost:8000/products${queryString}`;
+      console.log('Url: ', url);
+       
+      const response = await fetch(url);
+      const data = await response.json();
+        
+      dispatch(setProducts({
+        All_Products: data.All_Products,
+        Products_By_Category_Alpha: data.Products_By_Category_Alpha,
+        Products_By_Category_Alpha_Reverse: data.Products_By_Category_Alpha_Reverse,
+        Products_By_Product_Alpha: data.Products_By_Product_Alpha,
+        Products_By_Product_Alpha_Reverse: data.Products_By_Product_Alpha_Reverse,
+        Queried_Products: data.Queried_Products,
+        Total_Products: data.Total_Products,
+        Total_Pages: data.Total_Pages,
+        Current_Page: data.Current_Page,
+      }))
+    } catch (error) {
+      console.error('Error fetching complete product listing:',error);
+    }
+  };
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get('category') || 'default';
     const price = queryParams.get('price') || 'default';
     const product = queryParams.get('product') || '';
+    const page = queryParams.get('page') || '';
 
     dispatch(setCategoryOption(category));
     dispatch(setPriceOption(price));
     dispatch(setSearchValue(product));
-  }, [router, dispatch]);
+    dispatch(setProducts({ ...items, Current_Page: page }));
+
+    fetchProducts();
+  }, [selectedCategoryOption, selectedPriceOption, searchValue, currentPage, router, dispatch]);
 
   const refreshFilters = () => {
     dispatch(setCategoryOption('default'));
     dispatch(setPriceOption('default'));
     dispatch(setSearchValue(''));
-
     router.push('/');
   };
+
+  const nextPage = async () => {
+    console.log('Current Page: ', currentPage); 
+
+    if (currentPage < totalPages) {
+      const newPage = currentPage + 1;
+
+      updateUrl({ page: newPage });
+      await fetchProductsWithNewPage(newPage);
+
+      dispatch(setProducts({ ...items, Current_Page: newPage }));
+    }
+  };
+
+  const lastPage = () => {
+    if (currentPage > 1) {
+      const newPage = currentPage - 1;
+      dispatch(setProducts({ ...items, Current_Page: newPage }));
+      updateUrl({ page: newPage });
+      fetchProductsWithNewPage(newPage);
+    }
+  }
+
+  // const fetchProductsWithNewPage = async (newPage) => {
+  //   try {
+  //       const queryParams = [];
+
+  //       if (selectedCategoryOption !== 'default') {
+  //         queryParams.push(`category=${encodeURIComponent(selectedCategoryOption)}`);
+  //       }
+
+  //       if (selectedPriceOption !== 'default') {
+  //         queryParams.push(`price=${selectedPriceOption}`);
+  //       }
+
+  //       if (searchValue) {
+  //         queryParams.push(`product=${encodeURIComponent(searchValue)}`);
+  //       }
+
+  //       queryParams.push(`page=${newPage}`);
+
+  //       const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+  //       const url = `http://localhost:8000/products${queryString}`;
+  //       console.log('Url: ', url);
+       
+  //       const response = await fetch(url);
+  //       const data = await response.json();
+        
+  //       dispatch(setProducts({
+  //         All_Products: data.All_Products,
+  //         Products_By_Category_Alpha: data.Products_By_Category_Alpha,
+  //         Products_By_Category_Alpha_Reverse: data.Products_By_Category_Alpha_Reverse,
+  //         Products_By_Product_Alpha: data.Products_By_Product_Alpha,
+  //         Products_By_Product_Alpha_Reverse: data.Products_By_Product_Alpha_Reverse,
+  //         Queried_Products: data.Queried_Products,
+  //         Total_Products: data.Total_Products,
+  //         Total_Pages: data.Total_Pages,
+  //         Current_Page: newPage,
+  //       }))
+  //   } catch (error) {
+  //   console.error('Error fetching complete product listing:', error);
+  //   }
+  // };
 
   const updateUrl = (newQuery) => {
     const query = {
@@ -101,33 +174,29 @@ export default function Home({ sortOption }) {
     router.replace(browserUrl, undefined, { shallow: true });
   };
 
-    const handlePriceChange = (sortOption) => {
-      if (sortOption === 'default') {
-        dispatch(setPriceOption(sortOption));
-        updateUrl({ price: undefimed });
-      } else {
-        dispatch(setPriceOption(sortOption));
-        updateUrl({ price: sortOption });
-      }
-    };
+  const handlePageChange = async (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      updateUrl({ page: newPage });
+      await fetchProducts(newPage);
+    }
+  }
 
-    const handleCategoryChange = (sortOption) => {
-      if (sortOption === 'default') {
-        dispatch(setCategoryOption(sortOption));
-        updateUrl({ category: undefined });
-      } else {
-        dispatch(setCategoryOption(sortOption));
-        updateUrl({ category: sortOption });
-      }
-    };
-    
-    const handleSearch = (newValue) => {
-      dispatch(setSearchValue(newValue));
-      dispatch(setCategoryOption('default'));
-      dispatch(setPriceOption('default'));
+   const handlePriceChange = (sortOption) => {
+    dispatch(setPriceOption(sortOption));
+    updateUrl({ price: sortOption !== 'default' ? sortOption : undefined });
+  };
 
-      updateUrl({ product: newValue });
-    };
+  const handleCategoryChange = (sortOption) => {
+    dispatch(setCategoryOption(sortOption));
+    updateUrl({ category: sortOption !== 'default' ? sortOption : undefined });
+  };
+
+  const handleSearch = (newValue) => {
+    dispatch(setSearchValue(newValue));
+    dispatch(setCategoryOption('default'));
+    dispatch(setPriceOption('default'));
+    updateUrl({ product: newValue });
+  };
 
   return (
     <main>
@@ -137,10 +206,15 @@ export default function Home({ sortOption }) {
           <DropDownPrice onPriceChange={handlePriceChange} selectedPriceOption={selectedPriceOption} />
         </div>
         <div>
-          <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue}  />
+          <ReturnButton refreshFilters={refreshFilters} />
         </div>
         <div>
-          <ReturnButton refreshFilters={refreshFilters} />
+          <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue} currentPage={currentPage} />
+        </div>
+        <div>
+          <LastPage onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} currentPage={currentPage} />
+          <ProductStats items={items} />
+          <NextPage onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} currentPage={currentPage} />
         </div>
     </main>
   );

@@ -105,15 +105,57 @@ li {
 .return-box {
   display: flex;
   justify-content: center;
+  margin-top: 25px;
 }
 
 .return-link {
+  width: 450px;
+  height: 10px;
   display: inline-block;
   text-align: center;
-  font-size: 16px;
-  color: blue;
-  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(48, 48, 59);
+  background-color: white;
+  text-decoration: none;
   cursor: pointer;
+  padding: 10px 30px;
+  border: 1px solid rgb(151, 151, 173);
+  border-radius: 5px;
   margin: 0 auto;
-  padding: 30px;
+  transition: background-color 0.3s ease;
+}
+
+.return-link:hover {
+  background-color: rgb(65, 73, 86);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.next-page-link,
+.last-page-link {
+  width: 150px;
+  height: 45px;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(48, 48, 59);
+  background-color: white;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 10px 30px;
+  border: 1px solid rgb(151, 151, 173);
+  border-radius: 5px;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+}
+
+.next-page-link:hover,
+.last-page-link:hover {
+  background-color: rgb(65, 73, 86);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
