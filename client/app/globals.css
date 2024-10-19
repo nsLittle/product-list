@@ -133,29 +133,24 @@ li {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
-.next-page-link,
-.last-page-link {
-  width: 150px;
-  height: 45px;
-  display: inline-block;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 400;
-  color: rgb(48, 48, 59);
-  background-color: white;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 10px 30px;
-  border: 1px solid rgb(151, 151, 173);
-  border-radius: 5px;
-  margin: 0 auto;
-  transition: background-color 0.3s ease;
+.stat-link-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 20px;
+  /* margin-right: 20px; */
+  margin-top: 40px;
+  gap: 15px;
 }
 
-.next-page-link:hover,
-.last-page-link:hover {
-  background-color: rgb(65, 73, 86);
-  color: white;
-  font-weight: 700;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+.next {
+  width: 40px;
+  height: 40px;
+  margin-right: 200px;
+}
+
+.last {
+  width: 40px;
+  height: 40px;
+  margin-left: 200px;
 }

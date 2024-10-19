@@ -57,8 +57,4 @@ This first fullstack project was created using Node Express for the backend, whi
 
 1. REREAD INSTRUCTIONS
 2. Reviews?
-3. Make the stats pretty
-4. Last Page link and Next Page link
-5. Search results must clear before DropDownCategory and DropDownPrice
-6. Search Bar value needs to align with url query string
-7. Move All Products link to top of page
+3. Add last page link image

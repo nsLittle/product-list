@@ -9,8 +9,12 @@ export default function NextPage({ onClick, disabled }) {
         className={`next-page-link ${disabled ? 'disabled' : ''}`} 
         onClick={!disabled ? onClick : null}
       >
-        Next Page
-        </a>
+        <img
+          className="next"
+          src="/next.png"
+          alt="next page">
+        </img>
+      </a>
       </div>
     </>
   )

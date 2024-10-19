@@ -148,8 +148,8 @@ export default function Home({ sortOption }) {
         <div>
           <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue} currentPage={currentPage} />
         </div>
-        <div>
-          <LastPage onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} currentPage={currentPage} />
+        <div className='stat-link-box'>
+          <LastPage onClick={lastPage} disabled={currentPage <= 1} currentPage={currentPage} />
           <ProductStats items={items} />
           <NextPage onClick={nextPage} disabled={currentPage >= totalPages} currentPage={currentPage} />
         </div>
