@@ -14,7 +14,6 @@ import ReturnButton from './ReturnButton/page.js';
 import ProductStats from './ProductStats/page.js';
 import LastPage from './LastPage/page.js';
 import NextPage from './NextPage/page.js';
-import { set } from 'mongoose';
 
 export default function Home({ sortOption }) {
   const dispatch = useDispatch();
@@ -24,8 +23,12 @@ export default function Home({ sortOption }) {
   const selectedCategoryOption = useSelector(state => state.products.selectedCategoryOption);
   const selectedPriceOption = useSelector(state => state.products.selectedPriceOption);
   const searchValue = useSelector(state => state.products.searchValue);
-  const currentPage = useSelector(state => state.products.Current_Page);
-  const totalPages = useSelector(state => state.products.Total_Pages);
+  const currentPage = useSelector(state => state.products.items.Current_Page);
+  const totalPages = useSelector(state => state.products.items.Total_Pages);
+
+  console.log('Items: ', items);
+  console.log('Current Page: ', currentPage);
+  console.log('Total Pages: ', totalPages);
 
   const fetchProducts = async (page = currentPage) => {
     try {
@@ -58,10 +61,6 @@ export default function Home({ sortOption }) {
         
       dispatch(setProducts({
         All_Products: data.All_Products,
-        Products_By_Category_Alpha: data.Products_By_Category_Alpha,
-        Products_By_Category_Alpha_Reverse: data.Products_By_Category_Alpha_Reverse,
-        Products_By_Product_Alpha: data.Products_By_Product_Alpha,
-        Products_By_Product_Alpha_Reverse: data.Products_By_Product_Alpha_Reverse,
         Queried_Products: data.Queried_Products,
         Total_Products: data.Total_Products,
         Total_Pages: data.Total_Pages,
@@ -73,16 +72,6 @@ export default function Home({ sortOption }) {
   };
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const category = queryParams.get('category') || 'default';
-    const price = queryParams.get('price') || 'default';
-    const product = queryParams.get('product') || '';
-    const page = queryParams.get('page') || '';
-
-    dispatch(setCategoryOption(category));
-    dispatch(setPriceOption(price));
-    dispatch(setSearchValue(product));
-    dispatch(setProducts({ ...items, Current_Page: page }));
 
     fetchProducts();
   }, [selectedCategoryOption, selectedPriceOption, searchValue, currentPage, router, dispatch]);
@@ -100,10 +89,9 @@ export default function Home({ sortOption }) {
     if (currentPage < totalPages) {
       const newPage = currentPage + 1;
 
-      updateUrl({ page: newPage });
-      await fetchProductsWithNewPage(newPage);
-
-      dispatch(setProducts({ ...items, Current_Page: newPage }));
+      // dispatch(setProducts({ ...items, Current_Page: newPage }));
+      await handlePageChange(newPage);
+      // updateUrl({ page: newPage });
     }
   };
 
@@ -176,6 +164,7 @@ export default function Home({ sortOption }) {
 
   const handlePageChange = async (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
+      dispatch(setProducts({ ...items, Current_Page: newPage }))
       updateUrl({ page: newPage });
       await fetchProducts(newPage);
     }

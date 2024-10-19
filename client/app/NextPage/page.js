@@ -1,12 +1,17 @@
 import React from "react";
 
-export default function NextPage({ onClick, disabled }) {
+export default function NextPage({ handlePageChange }) {
   
 
   return (
     <>
       <div className="next-page-box">
-        <a className="next-page-link" onClick={onClick} disabled={disabled}>Next Page</a>
+      <a 
+        className={`next-page-link`} 
+        onClick={handlePageChange}
+      >
+        Next Page
+        </a>
       </div>
     </>
   )

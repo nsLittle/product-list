@@ -162,11 +162,6 @@ router.get("/products", async (req, res, next) => {
 
     res.json({
       All_Products: filteredProducts,
-      Products_By_Category_Alpha: 
-      filteredSortedCategoryAlpha,
-      Products_By_Category_Alpha_Reverse: filteredSortedCategoryAlphaReverse,
-      Products_By_Product_Alpha: filteredSortedProductAlpha,
-      Products_By_Product_Alpha_Reverse: filteredSortedProductAlphaReverse,
       Total_Products: count,
       Total_Pages: Math.ceil(count / perPage),
       Current_Page: page

@@ -1,3 +1,4 @@
+import { act } from "react";
 
 
 const initialState = {
@@ -37,7 +38,14 @@ const productsReducer = (state = initialState, action) => {
     case 'SET_PRODUCTS':
       return {
         ...state,
-        items: action.payload,
+        items: {
+          ...state.items,
+          All_Products: action.payload.All_Products,
+          Queried_Products: action.payload.Queried_Products,
+          Total_Products: action.payload.Total_Products,
+          Current_Page: action.payload.Current_Page,
+          Total_Pages: action.payload.Total_Pages,
+        }
       };
       case 'RESET_FILTERS':
         return {
