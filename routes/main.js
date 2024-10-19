@@ -107,33 +107,33 @@ router.get("/products", async (req, res, next) => {
 
     const filteredProductSearched = productSearched && productSearched.name && productSearched.category && productSearched.price && productSearched.image ? productSearched : null;
 
-    const sortedCategoryAlpha = await Product.find({})
-      .sort({ category: 1, name: 1 })
-      .skip(perPage * (page - 1))
-      .limit(perPage)
+    // const sortedCategoryAlpha = await Product.find({})
+    //   .sort({ category: 1, name: 1 })
+    //   .skip(perPage * (page - 1))
+    //   .limit(perPage)
     
-    const filteredSortedCategoryAlpha = sortedCategoryAlpha.filter(product => product.name && product.category && product.price && product.image);
+    // const filteredSortedCategoryAlpha = sortedCategoryAlpha.filter(product => product.name && product.category && product.price && product.image);
 
-    const sortedCategoryAlphaReverse = await Product.find({})
-    .sort({ category: -1, name: -1 })
-    .skip(perPage * (page - 1))
-    .limit(perPage)
+    // const sortedCategoryAlphaReverse = await Product.find({})
+    // .sort({ category: -1, name: -1 })
+    // .skip(perPage * (page - 1))
+    // .limit(perPage)
 
-    const filteredSortedCategoryAlphaReverse = sortedCategoryAlphaReverse.filter(product => product.name && product.category && product.price && product.image);
+    // const filteredSortedCategoryAlphaReverse = sortedCategoryAlphaReverse.filter(product => product.name && product.category && product.price && product.image);
     
-    const sortedProductAlpha = await Product.find({})
-      .sort({ name: 1 })
-      .skip(perPage * (page - 1))
-      .limit(perPage)
+    // const sortedProductAlpha = await Product.find({})
+    //   .sort({ name: 1 })
+    //   .skip(perPage * (page - 1))
+    //   .limit(perPage)
         
-    const filteredSortedProductAlpha = sortedProductAlpha.filter(product => product.name && product.category && product.price && product.image);
+    // const filteredSortedProductAlpha = sortedProductAlpha.filter(product => product.name && product.category && product.price && product.image);
 
-    const sortedProductAlphaReverse = await Product.find({})
-      .sort({ name: -1 })
-      .skip(perPage * (page -1))
-      .limit(perPage)
+    // const sortedProductAlphaReverse = await Product.find({})
+    //   .sort({ name: -1 })
+    //   .skip(perPage * (page -1))
+    //   .limit(perPage)
 
-    const filteredSortedProductAlphaReverse = sortedProductAlphaReverse.filter(product => product.name &&  product.category && product.price && product.image);
+    // const filteredSortedProductAlphaReverse = sortedProductAlphaReverse.filter(product => product.name &&  product.category && product.price && product.image);
 
     const sortedPriceLow = await Product.find({})
       .sort({ price: 1 })
@@ -162,6 +162,7 @@ router.get("/products", async (req, res, next) => {
 
     res.json({
       All_Products: filteredProducts,
+      Queried_Products: filteredProducts,
       Total_Products: count,
       Total_Pages: Math.ceil(count / perPage),
       Current_Page: page

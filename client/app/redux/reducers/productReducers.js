@@ -6,10 +6,6 @@ const initialState = {
   selectedPriceOption: 'default',
   items: {
     All_Products: [],
-    Products_By_Category_Alpha: [],
-    Products_By_Category_Alpha_Reverse: [],
-    Products_By_Product_Alpha: [],
-    Products_By_Product_Alpha_Reverse: [],
     Queried_Products: [],
     Total_Products: 0,
     Total_Pages: 0,

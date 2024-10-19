@@ -30,7 +30,7 @@ export default function Home({ sortOption }) {
   console.log('Current Page: ', currentPage);
   console.log('Total Pages: ', totalPages);
 
-  const fetchProducts = async (page = currentPage) => {
+  const fetchProducts = async (page) => {
     try {
       const queryParams = [];
 
@@ -46,11 +46,11 @@ export default function Home({ sortOption }) {
         queryParams.push(`product=${encodeURIComponent(searchValue)}`);
       }
 
-      if (currentPage) {
-        queryParams.push(`page=${encodeURIComponent(currentPage)}`);
+      if (page > 1) {
+        queryParams.push(`page=${encodeURIComponent(page)}`);
       }
 
-      queryParams.push(`page=${page}`);
+      // queryParams.push(`page=${encodeURIComponent(page)}`);
 
       const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
       const url = `http://localhost:8000/products${queryString}`;
@@ -72,9 +72,8 @@ export default function Home({ sortOption }) {
   };
 
   useEffect(() => {
-
-    fetchProducts();
-  }, [selectedCategoryOption, selectedPriceOption, searchValue, currentPage, router, dispatch]);
+    fetchProducts(currentPage);
+  }, [selectedCategoryOption, selectedPriceOption, searchValue, currentPage]);
 
   const refreshFilters = () => {
     dispatch(setCategoryOption('default'));
@@ -82,68 +81,6 @@ export default function Home({ sortOption }) {
     dispatch(setSearchValue(''));
     router.push('/');
   };
-
-  const nextPage = async () => {
-    console.log('Current Page: ', currentPage); 
-
-    if (currentPage < totalPages) {
-      const newPage = currentPage + 1;
-
-      // dispatch(setProducts({ ...items, Current_Page: newPage }));
-      await handlePageChange(newPage);
-      // updateUrl({ page: newPage });
-    }
-  };
-
-  const lastPage = () => {
-    if (currentPage > 1) {
-      const newPage = currentPage - 1;
-      dispatch(setProducts({ ...items, Current_Page: newPage }));
-      updateUrl({ page: newPage });
-      fetchProductsWithNewPage(newPage);
-    }
-  }
-
-  // const fetchProductsWithNewPage = async (newPage) => {
-  //   try {
-  //       const queryParams = [];
-
-  //       if (selectedCategoryOption !== 'default') {
-  //         queryParams.push(`category=${encodeURIComponent(selectedCategoryOption)}`);
-  //       }
-
-  //       if (selectedPriceOption !== 'default') {
-  //         queryParams.push(`price=${selectedPriceOption}`);
-  //       }
-
-  //       if (searchValue) {
-  //         queryParams.push(`product=${encodeURIComponent(searchValue)}`);
-  //       }
-
-  //       queryParams.push(`page=${newPage}`);
-
-  //       const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-  //       const url = `http://localhost:8000/products${queryString}`;
-  //       console.log('Url: ', url);
-       
-  //       const response = await fetch(url);
-  //       const data = await response.json();
-        
-  //       dispatch(setProducts({
-  //         All_Products: data.All_Products,
-  //         Products_By_Category_Alpha: data.Products_By_Category_Alpha,
-  //         Products_By_Category_Alpha_Reverse: data.Products_By_Category_Alpha_Reverse,
-  //         Products_By_Product_Alpha: data.Products_By_Product_Alpha,
-  //         Products_By_Product_Alpha_Reverse: data.Products_By_Product_Alpha_Reverse,
-  //         Queried_Products: data.Queried_Products,
-  //         Total_Products: data.Total_Products,
-  //         Total_Pages: data.Total_Pages,
-  //         Current_Page: newPage,
-  //       }))
-  //   } catch (error) {
-  //   console.error('Error fetching complete product listing:', error);
-  //   }
-  // };
 
   const updateUrl = (newQuery) => {
     const query = {
@@ -162,11 +99,22 @@ export default function Home({ sortOption }) {
     router.replace(browserUrl, undefined, { shallow: true });
   };
 
-  const handlePageChange = async (newPage) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      dispatch(setProducts({ ...items, Current_Page: newPage }))
-      updateUrl({ page: newPage });
-      await fetchProducts(newPage);
+  const handlePageChange = async (currentPage) => {
+    if (currentPage > 0 && currentPage <= totalPages) {
+      updateUrl({ page: currentPage });
+      await fetchProducts(currentPage);
+    }
+  }
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
+  const lastPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
     }
   }
 
@@ -201,9 +149,9 @@ export default function Home({ sortOption }) {
           <ProductsList selectedCategoryOption={selectedCategoryOption} selectedPriceOption={selectedPriceOption} items={items} searchValue={searchValue} currentPage={currentPage} />
         </div>
         <div>
-          <LastPage onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} currentPage={currentPage} />
+          <LastPage onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} currentPage={currentPage} />
           <ProductStats items={items} />
-          <NextPage onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} currentPage={currentPage} />
+          <NextPage onClick={nextPage} disabled={currentPage >= totalPages} currentPage={currentPage} />
         </div>
     </main>
   );

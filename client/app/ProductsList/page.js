@@ -18,17 +18,8 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
     return items.All_Products || [];
   };
 
-  // const getStatsToDisplay = () => {
-  //   return {
-  //     totalProducts: items.Total_Products,
-  //     totalPages: items.Total_Pages,
-  //     currentPage: items.Current_Page
-  //   };
-  // };
-
   const productsToDisplay = {
     products: getProductsToDisplay(),
-    // stats: getStatsToDisplay()
   };
 
   const handleNextPage = () => {
