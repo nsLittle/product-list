@@ -7,7 +7,6 @@ const { clear } = require('console');
 
 router.get("/generate-fake-data", async (req, res, next) => {
   console.log("App is giving us fake data...");
-
   try {
     // CLEAN DB ON START
     async function dropDatabase() {
@@ -64,7 +63,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   try {
-    const perPage = 6;
+    const perPage = 9;
     const page = parseInt(req.query.page, 10) || 1;
 
     // QUERY FROM URL
@@ -186,8 +185,6 @@ router.get("/products/:product", async (req, res, next) => {
   });
 
 router.get("/products/:product/reviews", async (req, res, next) => {
-  console.log('Product Reviews...');
-
   try {
     const productName = req.params.product;
 

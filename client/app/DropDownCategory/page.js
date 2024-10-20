@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import '../globals.css';
 
 export default function DropDownCategory({ selectedCategoryOption, onCategoryChange }) {
+  // const router = useRouter();
 
   const handleChange = (e) => {
     const sortOption = e.target.value;

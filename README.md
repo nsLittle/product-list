@@ -56,5 +56,3 @@ This first fullstack project was created using Node Express for the backend, whi
 ### Things to Add/Edit
 
 1. REREAD INSTRUCTIONS
-2. Reviews?
-3. Add last page link image

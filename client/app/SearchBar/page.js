@@ -8,13 +8,11 @@ export default function SearchBar({ onSearch }) {
 
   const handleSearchChange = (e) => {
     setNewValue(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
       onSearch(newValue);
-      console.log(newValue);
     }
   };
 

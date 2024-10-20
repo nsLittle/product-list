@@ -26,10 +26,6 @@ export default function Home({ sortOption }) {
   const currentPage = useSelector(state => state.products.items.Current_Page);
   const totalPages = useSelector(state => state.products.items.Total_Pages);
 
-  console.log('Items: ', items);
-  console.log('Current Page: ', currentPage);
-  console.log('Total Pages: ', totalPages);
-
   const fetchProducts = async (page) => {
     try {
       const queryParams = [];
@@ -50,11 +46,8 @@ export default function Home({ sortOption }) {
         queryParams.push(`page=${encodeURIComponent(page)}`);
       }
 
-      // queryParams.push(`page=${encodeURIComponent(page)}`);
-
       const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
       const url = `http://localhost:8000/products${queryString}`;
-      console.log('Url: ', url);
        
       const response = await fetch(url);
       const data = await response.json();
@@ -94,7 +87,6 @@ export default function Home({ sortOption }) {
     
     const queryString = new URLSearchParams(filteredQuery).toString();
     const browserUrl = `?${queryString}`;
-    console.log('Browser URL: ', `http://localhost:3000${browserUrl}`);
 
     router.replace(browserUrl, undefined, { shallow: true });
   };
