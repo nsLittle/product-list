@@ -1,6 +1,3 @@
-import { act } from "react";
-
-
 const initialState = {
   selectedCategoryOption: 'default',
   selectedPriceOption: 'default',
