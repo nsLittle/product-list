@@ -6,7 +6,7 @@ If you have any questions about this project or the program in general, visit [p
 
 ### Project Description
 
-This first fullstack project was created using Node Express for the backend, and React Nextjs for the frontend.  Using fake data generated from Fakerjs.dev, this project mmimcs an online product list.  
+This fullstack project was created using Node Express for the backend, and React Nextjs for the frontend.  Using fake data generated from Fakerjs.dev, this project mmimcs an online product list.  
 
 The project currently has reviews stored in the backend for each product.  This has not been tied in with the frontend for rendering at the moment.
 
