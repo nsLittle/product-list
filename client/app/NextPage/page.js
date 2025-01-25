@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 export default function NextPage({ onClick, disabled }) {
 
@@ -9,11 +10,11 @@ export default function NextPage({ onClick, disabled }) {
         className={`next-page-link ${disabled ? 'disabled' : ''}`} 
         onClick={!disabled ? onClick : null}
       >
-        <img
+        <Image
           className="next"
           src="/next.png"
           alt="next page">
-        </img>
+        </Image>
       </a>
       </div>
     </>

@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import '../globals.css';
 
@@ -38,7 +39,7 @@ export default function ProductsList({items, selectedCategoryOption, selectedPri
                 <p className="product-category">Category: {item.category}</p>
                 <p className="product-price">${item.price}</p>
               </div>
-              <img className="image-card" src={item.image} alt={item.name} />
+              <Image className="image-card" src={item.image} alt={item.name} />
               <h2 className="product-name">{item.name}</h2>
             </div>
           ))

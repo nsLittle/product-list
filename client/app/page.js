@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import store from './redux/store.js';
 import { useDispatch, useSelector } from 'react-redux';
 import  { useRouter } from 'next/navigation';
 import { setCategoryOption, setPriceOption, setSearchValue, setProducts, resetFilters } from './redux/actions/productActions.js';
