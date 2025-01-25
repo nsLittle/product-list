@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const PORT = process.env.PORT || 8000;
 
 // mongoose.connect('mongodb://localhost/product-list');
 
@@ -34,6 +35,6 @@ console.log("We're in the app...");
 const mainRoutes = require("./routes/main");
 app.use(mainRoutes);
 
-app.listen(8000, () => {
-  console.log("Node.js listening on port " + 8000);
+app.listen(PORT, () => {
+  console.log("Node.js listening on port " + PORT);
 });
