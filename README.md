@@ -41,7 +41,7 @@ This can ultimately be built into an online store with shopping carts and user a
     - product.js
   - routes
     - main.js
-  - package.json
+  - package.jsongit 
   - README.md
   - server.js
 

@@ -1,14 +1,17 @@
-require('dotenv').config();
-
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
-const path = require('path');
-const cors = require('cors');
+const next = require("next");
+const path = require("path");
+const cors = require("cors");
+
+// Setup environment variables
 const PORT = process.env.PORT || 8000;
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev, dir: "./client" }); // Tell Next.js where the frontend is
+const handle = app.getRequestHandler();
 
-// mongoose.connect('mongodb://localhost/product-list');
-
+// Connect to MongoDB
 const mongoURI = process.env.MONGO_URI;
 mongoose
   .connect(mongoURI, {
@@ -16,25 +19,28 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error(err));
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'build')));
+app.prepare().then(() => {
+  const server = express();
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  // Middleware
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: false }));
+  server.use(cors());
+
+  console.log("Express server started...");
+
+  // Import API routes
+  const mainRoutes = require("./routes/main");
+  server.use("/api", mainRoutes); // Serve backend API at /api/*
+
+  // Serve Next.js frontend
+  server.all("*", (req, res) => {
+    return handle(req, res);
   });
-}
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-
-console.log("We're in the app...");
-
-const mainRoutes = require("./routes/main");
-app.use(mainRoutes);
-
-app.listen(PORT, () => {
-  console.log("Node.js listening on port " + PORT);
+  server.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 });
