@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import  { useRouter } from 'next/navigation';
 import { setCategoryOption, setPriceOption, setSearchValue, setProducts, resetFilters } from './redux/actions/productActions.js';
@@ -25,47 +25,39 @@ export default function Home({ sortOption }) {
   const currentPage = useSelector(state => state.products.items.Current_Page);
   const totalPages = useSelector(state => state.products.items.Total_Pages);
 
-  const fetchProducts = async (page) => {
+  const fetchProducts = useCallback(async (page) => {
     try {
       const queryParams = [];
-
-    if (selectedCategoryOption !== 'default') {
+      if (selectedCategoryOption !== 'default') {
         queryParams.push(`category=${encodeURIComponent(selectedCategoryOption)}`);
       }
-
       if (selectedPriceOption !== 'default') {
         queryParams.push(`price=${selectedPriceOption}`);
       }
-
       if (searchValue) {
         queryParams.push(`product=${encodeURIComponent(searchValue)}`);
       }
-
       if (page > 1) {
         queryParams.push(`page=${encodeURIComponent(page)}`);
       }
-
       const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-      const url = `http://localhost:8000/products${queryString}`;
-       
-      const response = await fetch(url);
+      const response = await fetch(`http://localhost:8000/products${queryString}`);
       const data = await response.json();
-        
-      dispatch(setProducts({
-        All_Products: data.All_Products,
-        Queried_Products: data.Queried_Products,
-        Total_Products: data.Total_Products,
-        Total_Pages: data.Total_Pages,
-        Current_Page: data.Current_Page,
-      }))
+      dispatch(setProducts(data));
     } catch (error) {
-      console.error('Error fetching complete product listing:',error);
+      console.error(error);
     }
-  };
+  }, [dispatch, selectedCategoryOption, selectedPriceOption, searchValue]);
+  
 
   useEffect(() => {
     fetchProducts(currentPage);
-  }, [selectedCategoryOption, selectedPriceOption, searchValue, currentPage]);
+  }, [fetchProducts, currentPage]);
+  
+
+  useEffect(() => {
+    fetchProducts(currentPage);
+  }, [fetchProducts, selectedCategoryOption, selectedPriceOption, searchValue, currentPage]);
 
   const refreshFilters = () => {
     dispatch(setCategoryOption('default'));

@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "cd client && next dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "react-scripts build"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "express": "^4.21.1",
     "mongoose": "^8.5.4",
     "react-redux": "^9.1.2",
+    "react-scripts": "^5.0.1",
     "redux": "^5.0.1"
   },
   "devDependencies": {

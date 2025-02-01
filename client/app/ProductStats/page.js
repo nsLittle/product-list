@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import '../globals.css';
 
 export default function ProductsStats({items, selectedCategoryOption, selectedPriceOption, searchValue }) {
@@ -10,21 +10,24 @@ export default function ProductsStats({items, selectedCategoryOption, selectedPr
     if (!items) {
       return [];
     }
-
+  
     if (searchValue || selectedPriceOption !== 'default' || selectedCategoryOption !== 'default') {
-      return items.Queried_Products || [];
-    };
-
-    return items.All_Products || [];
-  };
+      return items?.Queried_Products || [];
+    }
+  
+    return items?.All_Products || [];
+  };  
 
   const getStatsToDisplay = () => {
+    const { Total_Products = 0, Total_Pages = 0, Current_Page = 1 } = items || {};
     return {
-      totalProducts: items.Total_Products,
-      totalPages: items.Total_Pages,
-      currentPage: items.Current_Page
+      totalProducts: Total_Products,
+      totalPages: Total_Pages,
+      currentPage: Current_Page
     };
   };
+  
+  
 
   const productsToDisplay = {
     products: getProductsToDisplay(),

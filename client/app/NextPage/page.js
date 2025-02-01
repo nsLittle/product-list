@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from 'next/image';
 
@@ -13,7 +15,10 @@ export default function NextPage({ onClick, disabled }) {
         <Image
           className="next"
           src="/next.png"
-          alt="next page">
+          alt="next page"
+          width={200}
+          height={100}
+          >
         </Image>
       </a>
       </div>
